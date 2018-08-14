@@ -1,0 +1,162 @@
+[
+    {
+        "place_id": "ChIJ442GNENu5kcRGYUrvgqHw88",
+        "name": "Sacré-Cœur",
+        "location": {
+            "lat": 48.88670459999999,
+            "lng": 2.3431043
+        }
+    },
+    {
+        "place_id": "ChIJe2jeNttx5kcRi_mJsGHdkQc",
+        "name": "Luxembourg Gardens",
+        "location": {
+            "lat": 48.8462217,
+            "lng": 2.3371605
+        }
+    },
+    {
+        "place_id": "ChIJR3122B9u5kcRaCck3PlB9DM",
+        "name": "Sainte-Chapelle",
+        "location": {
+            "lat": 48.85542,
+            "lng": 2.344987
+        }
+    },
+    {
+        "place_id": "ChIJhadpXItt5kcRGWQLUydhz6E",
+        "name": "Père Lachaise Cemetery",
+        "location": {
+            "lat": 48.861393,
+            "lng": 2.3933276
+        }
+    },
+    {
+        "place_id": "ChIJg6_eOxHsC0ER6zlGwyHtcFk",
+        "name": "Ceetiz - Book the best things to do",
+        "location": {
+            "lat": 48.8658917,
+            "lng": 2.2838286
+        }
+    },
+    {
+        "place_id": "ChIJjx37cOxv5kcRPWQuEW5ntdk",
+        "name": "Arc de Triomphe",
+        "location": {
+            "lat": 48.8737917,
+            "lng": 2.2950275
+        }
+    },
+    {
+        "place_id": "ChIJR3122B9u5kcR9RZ_OWxSy80",
+        "name": "Le Palais Royal",
+        "location": {
+            "lat": 48.8637569,
+            "lng": 2.3371261
+        }
+    },
+    {
+        "place_id": "ChIJR3122B9u5kcRajG2bEZLypA",
+        "name": "Conciergerie",
+        "location": {
+            "lat": 48.8560114,
+            "lng": 2.3454953
+        }
+    },
+    {
+        "place_id": "ChIJUSQArsxx5kcRPFkcG5z_BPw",
+        "name": "Montparnasse Tower",
+        "location": {
+            "lat": 48.8421379,
+            "lng": 2.3219514
+        }
+    },
+    {
+        "place_id": "ChIJwxT3mL5v5kcRAsTd3v0lJOY",
+        "name": "Parc Monceau",
+        "location": {
+            "lat": 48.8796835,
+            "lng": 2.308955
+        }
+    },
+    {
+        "place_id": "ChIJQ9vMHipw5kcRWHC2ESjYaGQ",
+        "name": "Rodin Museum",
+        "location": {
+            "lat": 48.8553072,
+            "lng": 2.3158354
+        }
+    },
+    {
+        "place_id": "ChIJlTr0NSVu5kcR-Zf_HVedVq8",
+        "name": "Discover Walks Paris - Paris walking tours",
+        "location": {
+            "lat": 48.8657153,
+            "lng": 2.33638
+        }
+    },
+    {
+        "place_id": "ChIJUzCPuddv5kcRasGAnEUUWkU",
+        "name": "Les Invalides",
+        "location": {
+            "lat": 48.8570915,
+            "lng": 2.3128112
+        }
+    },
+    {
+        "place_id": "ChIJLU7jZClu5kcR4PcOOO6p3I0",
+        "name": "Eiffel Tower",
+        "location": {
+            "lat": 48.85837009999999,
+            "lng": 2.2944813
+        }
+    },
+    {
+        "place_id": "ChIJATr1n-Fx5kcRjQb6q6cdQDY",
+        "name": "Cathédrale Notre-Dame de Paris",
+        "location": {
+            "lat": 48.85296820000001,
+            "lng": 2.3499021
+        }
+    },
+    {
+        "place_id": "ChIJAQAAMCxu5kcRx--_4QnbGcI",
+        "name": "Tuileries Garden",
+        "location": {
+            "lat": 48.8634916,
+            "lng": 2.3274943
+        }
+    },
+    {
+        "place_id": "ChIJD3uTd9hx5kcR1IQvGfr8dbk",
+        "name": "Louvre Museum",
+        "location": {
+            "lat": 48.8606111,
+            "lng": 2.337644
+        }
+    },
+    {
+        "place_id": "ChIJUeiI4P9x5kcRqEwHl6V32GQ",
+        "name": "Place des Vosges",
+        "location": {
+            "lat": 48.85561140000001,
+            "lng": 2.3655266
+        }
+    },
+    {
+        "place_id": "ChIJAQquYc1v5kcRLKslDuENAxg",
+        "name": "Place de la Concorde",
+        "location": {
+            "lat": 48.8656331,
+            "lng": 2.3212357
+        }
+    },
+    {
+        "place_id": "ChIJn6TYegFy5kcRg_-xruXtHZY",
+        "name": "Coulée Verte René-Dumont",
+        "location": {
+            "lat": 48.8493828,
+            "lng": 2.371466
+        }
+    }
+]

@@ -1,14 +1,18 @@
+## python 2
 import requests
 import  json
 from pprint import pprint
 from PIL import Image
-from io import BytesIO
+from io import BytesIO, StringIO
+import os
+import time
 
-keynum = 2;
+keynum = 0;
 api_keys =  [
-    'AIzaSyBgzJs6GLkewQeS6y4aPPVvB_QqAMAPYxc',
-    'AIzaSyD1L47J3nVjvAB9JXebI5-P9NCMbPvcZ3k',
-    'AIzaSyBJu3JMPYn4N4VKL3BYp1-j3l-ccjXh4dI'
+    'AIzaSyA8Bx31m2GEuPiRMDuEgpd-9v7fjX1HSMk' #sid
+    #'AIzaSyBgzJs6GLkewQeS6y4aPPVvB_QqAMAPYxc',
+    #'AIzaSyD1L47J3nVjvAB9JXebI5-P9NCMbPvcZ3k',
+    #'AIzaSyBJu3JMPYn4N4VKL3BYp1-j3l-ccjXh4dI'
 ];
 datadir ='./data'
 
@@ -17,6 +21,7 @@ def get_api_key():
     global api_keys
     keynum += 1
     keynum %= len(api_keys)
+    time.sleep(10)
     return api_keys[keynum]
 
 
@@ -59,7 +64,7 @@ class CityScraper:
             'fields' : 'geometry,place_id'
         }
         response = requests.get('https://maps.googleapis.com/maps/api/place/findplacefromtext/json' , params).json()
-
+        pprint(response)
         self.city_place_id = response["candidates"][0]["place_id"]
         self.lat = response["candidates"][0]["geometry"]["location"]["lat"];
         self.lng = response["candidates"][0]["geometry"]["location"]["lng"];
@@ -74,17 +79,17 @@ class CityScraper:
             'radius' : 10000,
             'rankby' : 'prominence'    
         }
+
         response = requests.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json' , params).json()
         self.sites = []
         for site in response['results']:
-            sites.append({
+            self.sites.append({
                 'name' : site['name'],
                 'place_id'   : site['place_id'],
                 'location' : {
                     'lat' : site['geometry']['location']['lat'],
                     'lng' : site['geometry']['location']['lng']
                 }
-                'rating' : site['rating']
             })
         #pprint(response)
 
@@ -104,22 +109,30 @@ class CityScraper:
                 'lng' : self.lng
             }
         );
-        with open('{}/{}/info.json'.format(datadir,self.city) , 'w') as f:
+        dirname = '{}/{}'.format(datadir, self.city);
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        with open('{}/info.json'.format(dirname) , 'w+') as f:
             f.write(info)
 
-        with open('{}/{}/sites.json'.format(datadir,self.city) , 'w' ) as f:
-            f.write(self.sites)
+        with open('{}/sites.json'.format(dirname) , 'w+' ) as f:
+            f.write(json.dumps(self.sites))
 
 def main():
-
-    cities = [ 'Bangkok', 'Seoul', 'London', 'Milan' , 'Paris' , 'Rome' , 'Singapore', 
-        'Shanghai', 'New York', 'Amsterdam', 'Istanbul','Tokyo', 'Dubal', 'Vienna', 'Kuala Lumpur', 'Taipei', 
-        'Hong Kong', 'Riyadh', 'Barcelona', 'Los Angeles'
+    
+    # Barcelona
+    cities = [ 'Bangkok', 'Seoul',  'Paris' 'Milan' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
+        'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
+        'Hong Kong', 'Riyadh','Los Angeles'
     ];
-    scraper = CityScraper('Paris')
-    scraper.fetch_location()
-    scraper.display()
-    scraper.get_sites_list()
+    for city in cities:
+        print 'collecting data for {}'.format(city)
+        scraper = CityScraper(city)
+        scraper.fetch_location()
+        scraper.get_sites_list()
+        scraper.save_to_disk()
+    
 
 
 
