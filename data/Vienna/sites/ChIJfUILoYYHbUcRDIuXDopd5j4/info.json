@@ -1,0 +1,1 @@
+{"rating": 4.9, "name": "Dritte Mann Museum", "timings": [{"close": {"day": 6, "time": "1800"}, "open": {"day": 6, "time": "1400"}}], "northeast_corner": {"lat": 48.1974772802915, "lng": 16.3638769302915}, "lat": 48.19609930000001, "southwest_corner": {"lat": 48.1947793197085, "lng": 16.3611789697085}, "lng": 16.3624638, "types": ["museum", "point_of_interest", "establishment"]}
