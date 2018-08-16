@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 import uuid
+from datetime import date
+from django.utils.translation import gettext as _
 
 class City(models.Model):
 	city_name = models.CharField(max_length=40)
@@ -49,14 +51,13 @@ class Photo(models.Model):
 	POI = models.ForeignKey(PointOfInterest,on_delete=models.CASCADE, verbose_name="photo of corresponding point of interest")
 
 class Form(models.Model):
-	city = models.OneToOneField(
+	city = models.ForeignKey(
         City,
         on_delete=models.CASCADE,
-        related_name='city entered for itenerary',
     )
-    start_date = models.DateField(default=date.today)
-    end_date = models.DateField(default=date.today)
-    type_tags = models.ManyToManyField(Type)
+	start_date = models.DateField(_("Start Date"), default=date.today)
+	end_date = models.DateField(_("End Date"), default=date.today)
+	type_tags = models.ManyToManyField(Type)
 
 
 # Create your models here.
