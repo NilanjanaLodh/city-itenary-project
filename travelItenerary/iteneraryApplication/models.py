@@ -30,8 +30,10 @@ class PointOfInterest(models.Model):
 	rating = models.DecimalField(max_digits = 2, decimal_places = 1)
 	POI_map_url = models.URLField()
 	POI_website_url = models.URLField()
-	types = models.ManyToManyField(Type)
-	POI_city = models.ForeignKey(City,on_delete=models.CASCADE, verbose_name = "point of interest of the corresponding city",default=0)
+	types = models.ManyToManyField(Type,null=True,blank=True)
+	POI_city = models.ForeignKey(City,on_delete=models.CASCADE, verbose_name = "point of interest of the corresponding city",null=True,blank=True)
+	average_time_spent = models.DecimalField(max_digits=4, decimal_places=2)
+
 
 	def __str__(self):
 		return '%s' % self.POI_name
@@ -48,7 +50,7 @@ class Photo(models.Model):
 	height = models.IntegerField()
 	width = models.IntegerField()
 	photo_src = models.URLField()
-	POI = models.ForeignKey(PointOfInterest,on_delete=models.CASCADE, verbose_name="photo of corresponding point of interest")
+	POI = models.ForeignKey(PointOfInterest,on_delete=models.CASCADE, verbose_name="photo of corresponding point of interest",null=True,blank=True)
 
 class Form(models.Model):
 	city = models.ForeignKey(
@@ -57,7 +59,7 @@ class Form(models.Model):
     )
 	start_date = models.DateField(_("Start Date"), default=date.today)
 	end_date = models.DateField(_("End Date"), default=date.today)
-	type_tags = models.ManyToManyField(Type)
+	type_tags = models.ManyToManyField(Type,null=True,blank=True)
 
 
 # Create your models here.
