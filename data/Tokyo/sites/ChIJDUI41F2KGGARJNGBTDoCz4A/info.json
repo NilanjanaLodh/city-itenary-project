@@ -1,0 +1,1 @@
+{"rating": 4.1, "name": "Tokyo Marriott Hotel", "timings": [{"open": {"day": 0, "time": "0000"}}], "northeast_corner": {"lat": 35.62287808029149, "lng": 139.7384244802915}, "lat": 35.62152909999999, "southwest_corner": {"lat": 35.62018011970849, "lng": 139.7357265197085}, "lng": 139.7370755, "types": ["lodging", "point_of_interest", "establishment"]}

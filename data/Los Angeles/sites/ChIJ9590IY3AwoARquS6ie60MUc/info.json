@@ -1,0 +1,1 @@
+{"rating": 4.7, "name": "Griffith Park", "timings": [{"open": {"day": 0, "time": "0000"}}], "northeast_corner": {"lat": 34.17926335, "lng": -118.25645995}, "lat": 34.1365544, "southwest_corner": {"lat": 34.08447234999999, "lng": -118.32691655}, "lng": -118.2942, "types": ["park", "point_of_interest", "establishment"]}

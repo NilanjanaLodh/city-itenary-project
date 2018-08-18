@@ -1,0 +1,1 @@
+{"rating": 4.5, "name": "Stadtpark", "timings": [{"open": {"day": 0, "time": "0000"}}], "northeast_corner": {"lat": 48.20968275, "lng": 16.38611025}, "lat": 48.2047335, "southwest_corner": {"lat": 48.19947455, "lng": 16.37405205}, "lng": 16.3796601, "types": ["park", "point_of_interest", "establishment"]}
