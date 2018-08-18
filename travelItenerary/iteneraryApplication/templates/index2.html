@@ -24,9 +24,8 @@
 
 
 
-	<!-- Bootstrap Date-Picker Plugin --><!-- 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> -->
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script> -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> -->
 
     <!-- Custom fonts for this template -->
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
@@ -51,7 +50,23 @@
 
 
 
+    <script type="text/javascript">
+      $(function() {
 
+        $( "#id_start_date" ).datepicker({
+          dateFormat: 'MM d yy',
+          changeMonth: true,
+          changeYear: true,
+          minDate: 0,
+        });
+        $( "#id_end_date" ).datepicker({
+          dateFormat: 'MM d yy',
+          changeMonth: true,
+          changeYear: true,
+          minDate: 0,
+        });
+      });
+      </script>
 
 
 
@@ -270,17 +285,49 @@
       </div>
     </section>
 
-    <script>
+   <!--  <script>
     $(function() {
-      $( ".datepicker" ).datepicker({
+      var date = $( "#id_start_date" ).datepicker({
+        dateFormat: 'dd-mm-yy',
         changeMonth: true,
         changeYear: true,
-        yearRange: "2018:2025",
+        minDate: 0,
+      });
+
+      $( "#id_end_date" ).datepicker({
+        dateFormat: 'dd-mm-yy',
+        changeMonth: true,
+        changeYear: true,
+        minDate: 0,
         // You can put more options here.
 
       });
+      console.log(new Date(date))
     });
-    </script>
+    </script> -->
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        
+        $('.form-group input, .form-group select').change(function() {
+          updateConfig();
+        })
+        function updateConfig() {
+
+          var date = $("#id_start_date").datepicker( 'getDate' );
+          console.log(date);
+          // $( "#id_end_date" ).datepicker({
+          //   dateFormat: 'dd-mm-yy',
+          //   changeMonth: true,
+          //   changeYear: true,
+          //   minDate: date,
+          //   // You can put more options here.
+
+          // });
+          $('#id_end_date').datepicker('option', 'minDate', date);
+        }
+      });
+      </script>
     
 
   </body>
