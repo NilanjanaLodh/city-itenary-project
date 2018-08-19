@@ -29,17 +29,19 @@ def show_plan(request):
     #will get the plan from the algorithm
     plan = {
         "city": "city-name",
+        "start_date": "start_date",
         "days": 2,
         "tour":[
                     [
                         {
                             "place_id": "place_id",
                             "place": "place_name",
-                            "stars": 3,
+                            "rating": 3,
                             "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
                             "time_spend": "amount_of_time_to_spend",
                             "time": "time_to_visit",
-                            "coordinates": "x_y_coordinates",
+                            "latitude": "lat",
+                            "longitude": "long",
                             "cost": "cost"
                         },
                         {
@@ -49,7 +51,8 @@ def show_plan(request):
                             "description": "place_description2 scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "amount_of_time_to_spend2",
                             "time": "time_to_visit2",
-                            "coordinates": "x_y_coordinates2",
+                            "latitude": "lat",
+                            "longitude": "long",
                             "cost": "cost2"
                         }
                     ],
@@ -61,7 +64,8 @@ def show_plan(request):
                             "description": "day2_place_description  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "day2_amount_of_time_to_spend",
                             "time": "day2_time_to_visit",
-                            "coordinates": "day2_x_y_coordinates",
+                            "latitude": "lat",
+                            "longitude": "long",
                             "cost": "day2_cost"
                         },
                         {
@@ -71,7 +75,8 @@ def show_plan(request):
                             "description": "day2_place_description2  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "day2_amount_of_time_to_spend2",
                             "time": "day2_time_to_visit2",
-                            "coordinates": "day2_x_y_coordinates2",
+                            "latitude": "lat",
+                            "longitude": "long",
                             "cost": "day2_cost2"
                         }
                     ]
