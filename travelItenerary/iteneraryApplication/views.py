@@ -82,3 +82,5 @@ def show_plan(request):
             place['stars'] = range(place['stars'])
     return HttpResponse(loader.get_template("show_plan.html").render(plan))
 
+def thanks(request):
+	return HttpResponse("Hello World")
