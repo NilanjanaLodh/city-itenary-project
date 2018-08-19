@@ -7,14 +7,14 @@ from datetime import date
 from django.utils.translation import gettext as _
 
 class City(models.Model):
-	city_name = models.CharField(max_length=40)
+	city_name = models.CharField(max_length=40, primary_key=True)
 
 	def __str__(self):
 		return '%s' % self.city_name
 
 
 class Type(models.Model):
-	type_name = models.CharField(max_length=20)
+	type_name = models.CharField(max_length=20, primary_key=True)
 
 	def __str__(self):
 		return '%s' % self.type_name
@@ -32,7 +32,7 @@ class PointOfInterest(models.Model):
 	POI_website_url = models.URLField()
 	types = models.ManyToManyField(Type,null=True,blank=True)
 	POI_city = models.ForeignKey(City,on_delete=models.CASCADE, verbose_name = "point of interest of the corresponding city",null=True,blank=True)
-	average_time_spent = models.DecimalField(max_digits=4, decimal_places=2)
+	average_time_spent = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
 
 	def __str__(self):
