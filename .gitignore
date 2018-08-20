@@ -2,4 +2,6 @@
 **/*.sqlite3
 **/.DS_Store
 **/*.pyc
-\.vscode/
+\.vscode/*.pyc
+**/migrations
+**/db.sqlite3
