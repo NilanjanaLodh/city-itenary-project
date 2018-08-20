@@ -81,17 +81,17 @@ plan = {
 
 
 def itenerary_form(request): 
-	form = IteneraryForm()
-	if request.method == "POST":
-		form = IteneraryForm(request.POST)
-		if form.is_valid():
-			form.save()
-			# return HttpResponse('hfggh')
-			return HttpResponseRedirect('/iteneraryApplication/show_plan/')
-	
-		# return render(request, 'templates/index2.html', {'form': itene})
-	return render(request, 'index2.html', {'form': form})
-	# return render(request, html template page to return after form, params for form)
+    form = IteneraryForm()
+    if request.method == "POST":
+        form = IteneraryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # return HttpResponse('hfggh')
+            return HttpResponseRedirect('/iteneraryApplication/show_plan/')
+    
+        # return render(request, 'templates/index2.html', {'form': itene})
+    return render(request, 'index2.html', {'form': form})
+    # return render(request, html template page to return after form, params for form)
 
 
 def show_plan(request):
@@ -106,7 +106,7 @@ def show_plan(request):
     return HttpResponse(loader.get_template("show_plan.html").render(plan))
 
 def thanks(request):
-	return HttpResponse("Hello World")
+    return HttpResponse("Hello World")
 
 def show_map(request):
     tour = plan["tour"]
