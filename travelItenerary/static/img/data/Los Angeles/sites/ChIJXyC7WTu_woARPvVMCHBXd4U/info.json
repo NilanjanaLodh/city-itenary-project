@@ -1,0 +1,1 @@
+{"rating": 4, "name": "Hollywood Walk of Fame", "timings": [{"open": {"day": 0, "time": "0000"}}], "northeast_corner": {"lat": 34.10304808029149, "lng": -118.3323346197085}, "lat": 34.1016991, "southwest_corner": {"lat": 34.10035011970849, "lng": -118.3350325802915}, "lng": -118.3336836, "types": ["point_of_interest", "establishment"]}
