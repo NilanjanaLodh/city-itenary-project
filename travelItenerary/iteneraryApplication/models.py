@@ -20,7 +20,7 @@ class Type(models.Model):
 		return '%s' % self.type_name.replace("_", " ")
 
 class PointOfInterest(models.Model):
-	POI_id = models.TextField()
+	POI_id = models.TextField(primary_key=True)
 	POI_image_src = models.URLField()
 	POI_name = models.CharField(max_length=40)
 	formatted_address = models.TextField()
@@ -42,11 +42,11 @@ class OpenCloseTime(models.Model):
 	open_time = models.IntegerField()
 	close_time = models.IntegerField()
 	day = models.IntegerField()
-	POI = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, verbose_name="the opening and closing time of the corresponding point of interest on a certain day",)
+	POI = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, verbose_name="the opening and closing time of the corresponding point of interest on a certain day",null=True,blank=True)
 
 
 class Photo(models.Model):
-	photo_id = models.TextField()
+	photo_id = models.TextField(primary_key=True)
 	height = models.IntegerField()
 	width = models.IntegerField()
 	photo_src = models.URLField()
