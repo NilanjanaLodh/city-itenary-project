@@ -5,7 +5,7 @@ import json
 datadir = './data'
 def main():
     # Paris, ,'Milan'
-    cities = [ 'Bangkok', 'Seoul' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
+    cities = [ 'Bangkok', 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
         'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
         'Hong Kong', 'Riyadh','Los Angeles'
     ]
