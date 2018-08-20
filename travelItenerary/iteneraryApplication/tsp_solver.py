@@ -72,3 +72,19 @@ def calculate_time(path):
 		time+=distance_i_to_j_object.time
 	time+=path[path_len-1].average_time_spent
 	return time
+
+def calculate_time_upto(POI, POI_list):
+	path_len = len(path)
+	time=0;
+	for i in range(0,path_len-1):
+		if POI_list[i] == POI:
+			return time
+
+		distance_i_to_i+1_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[i+1])
+		time+=path[i].average_time_spent
+		time+=distance_i_to_j_object.time
+
+	if POI_list[path_len-1] == POI:
+		return time
+
+	return -1

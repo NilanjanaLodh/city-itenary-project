@@ -34,7 +34,7 @@ class PointOfInterest(models.Model):
 	types = models.ManyToManyField(Type,null=True,blank=True)
 	POI_city = models.ForeignKey(City,on_delete=models.CASCADE, verbose_name = "point of interest of the corresponding city",null=True,blank=True)
 	average_time_spent = models.DecimalField(max_digits=4, decimal_places=2, default=0)
-
+	description = models.TextField()
 
 	def __str__(self):
 		return '%s' % self.POI_name

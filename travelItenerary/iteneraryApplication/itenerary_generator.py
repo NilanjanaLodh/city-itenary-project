@@ -1,8 +1,9 @@
 from .models import City, Type, PointOfInterest, OpenCloseTime, Photo, Form
 from sklearn.cluster import KMeans
 import numpy as np
-from tsp_solver import tsp_solver, calculate_time
+from tsp_solver import tsp_solver, calculate_time, calculate_time_upto
 from .gratification import gratification_score
+import json
 
 half_day_time = 12*60
 
@@ -63,4 +64,34 @@ def tsp_POI_delegation(cluster_list):
 
 	return cluster_list
 
-def 
+def itenerary_json(cluster_list,form):
+	json_output=""
+	"city": "Dubai",
+    "start_date": "08/21/2018",
+    "days": 2,
+    city = form.city
+	start_date = form.start_date
+	end_date = form.end_date
+	no_days = (end_date - start_date).days
+	tour=[]
+
+	for path in cluster_list:
+		path_json = []
+		for POI in path:
+			POI_json.lat = POI.latitude
+			POI_json.lng = POI.longitude
+			POI_json.name = POI.POI_name
+			POI_json.place_id = POI.POI_id
+			POI_json.rating = POI.rating
+			POI_json.description = POI.description
+			POI_json.time = calculate_time_upto(POI,path)
+			POI_cost = 10
+			path_json.append(POI_json)
+		tour.append(path_json)
+
+	json_output.dump(city)
+	json_output.dump(start_date)
+	json_output.dump(no_days)
+	json_output.dump(tour)
+
+	return json_output
