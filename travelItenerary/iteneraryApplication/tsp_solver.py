@@ -1,7 +1,7 @@
 from ortools.constraint_solver import pywrapcp
 from ortools.constraint_solver import routing_enums_pb2
 import numpy as np
-from .models import Distance
+from .models import DistanceTime
 
 def create_distance_callback(dist_matrix):
   # Create a callback to calculate distances between cities.
@@ -18,8 +18,8 @@ def create_distance_matrix(POI_list):
 			if i==j:
 				dist_matrix[i][j] = 0
 			else:
-				distance_i_to_j_object = Distance.objects.filter(source = POI_list[i], dest = POI_list[j])
-				dist_matrix[i][j] = distance_i_to_j_object.distance
+				distance_i_to_j_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[j])
+				dist_matrix[i][j] = distance_i_to_j_object.time
 	return dist_matrix
 
 
@@ -44,7 +44,7 @@ def tsp_solver(POI_list):
 		assignment = routing.SolveWithParameters(search_parameters)
 		if assignment:
 	    	# Solution distance.
-	    	print "Total distance: " + str(assignment.ObjectiveValue()) + " miles\n"
+	    	print "Total time: " + str(assignment.ObjectiveValue()) + " minutes\n"
 	    	# Display the solution.
 	    	# Only one route here; otherwise iterate from 0 to routing.vehicles() - 1
 	    	route_number = 0
@@ -54,7 +54,7 @@ def tsp_solver(POI_list):
 	     		# Convert variable indices to node indices in the displayed route.
 	    		route.append(POI_list[routing.IndexToNode(index)])
 	    		index = assignment.Value(routing.NextVar(index))
-	    	route.append(POI_list[routing.IndexToNode(index)])
+	    	# route.append(POI_list[routing.IndexToNode(index)])
 	    	print "route calculated"
 		else:
 			print 'No solution found.'
@@ -62,3 +62,13 @@ def tsp_solver(POI_list):
 		print 'Specify an instance greater than 0.'
 	
 	return route
+
+def calculate_time(path):
+	path_len = len(path)
+	time=0;
+	for i in range(0,path_len-1):
+		distance_i_to_i+1_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[i+1])
+		time+=path[i].average_time_spent
+		time+=distance_i_to_j_object.time
+	time+=path[path_len-1].average_time_spent
+	return time
