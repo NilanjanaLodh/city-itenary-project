@@ -5,89 +5,113 @@ from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .iteneraryform import IteneraryForm
 import json
-from .itenerary_generator impor
 
 # Create your views here.
+plan = {
+    "city": "Dubai",
+    "start_date": "08/21/2018",
+    "days": 2,
+    "tour":[
+                [
+                    {
+                        "lat": 25.242992, 
+                        "lng": 55.33269 ,
+                        "name": "Park Hyatt Dubai", 
+                        "place_id": "place_id1", 
+                        "rating": 5,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+                    },
+                    {
+                        "lat": 25.197405, 
+                        "lng": 55.274331 ,
+                        "name" : "At the top of burj khalifa",
+                        "place_id": "place_id2", 
+                        "rating": 3,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+
+                    },
+                    {
+                        "name": "The Dubai Mall", 
+                        "lat": 25.198518, 
+                        "lng": 55.279619,
+                        "place_id": "place_id3", 
+                        "rating": 4,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+                    },
+                    {
+                        "lat": 25.1330986, 
+                        "lng": 55.183466 , "name": "Madinat Jumeirah",
+                        "place_id": "place_id4", 
+                        "rating": 4,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+                    }
+                ],
+                [
+                    {
+                        "lat": 25.139409, 
+                        "lng": 55.188844 , 
+                        "name": "Wild wadi waterpark",
+                        "place_id": "place_id5", 
+                        "rating": 5,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+                    },
+                    {
+                        "lat": 25.1971411, 
+                        "lng": 55.2796665 , 
+                        "name" : "Dubai ice rink",
+                        "place_id": "place_id6", 
+                        "rating": 2,
+                        "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
+                        "time": "time_to_visit",
+                        "cost": "cost"
+                    }
+                ]
+    ]
+}
+
 
 def itenerary_form(request): 
-	form = IteneraryForm()
-	if request.method == "POST":
-		form = IteneraryForm(request.POST)
-		if form.is_valid():
-			# return HttpResponseRedirect('/iteneraryApplication/show_plan/')
-            generate_itenerer
-	
-		# return render(request, 'templates/index2.html', {'form': itene})
-	return render(request, 'index2.html', {'form': form})
-	# return render(request, html template page to return after form, params for form)
-
-def thanks(request):
-	return HttpResponse("Hello World")
+    form = IteneraryForm()
+    if request.method == "POST":
+        form = IteneraryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # return HttpResponse('hfggh')
+            return HttpResponseRedirect('/iteneraryApplication/show_plan/')
+    
+        # return render(request, 'templates/index2.html', {'form': itene})
+    return render(request, 'index2.html', {'form': form})
+    # return render(request, html template page to return after form, params for form)
 
 
 def show_plan(request):
     #will get the plan from the algorithm
-    plan = {
-        "city": "city-name",
-        "start_date": "start_date",
-        "days": 2,
-        "tour":[
-                    [
-                        {
-                            "place_id": "place_id",
-                            "place": "place_name",
-                            "rating": 3,
-                            "description": "Lorem ipsum dictumst habitant hendrerit massa nostra fermentum feugiat",
-                            "time_spend": "amount_of_time_to_spend",
-                            "time": "time_to_visit",
-                            "latitude": "lat",
-                            "longitude": "long",
-                            "cost": "cost"
-                        },
-                        {
-                            "place_id": "place_id2",
-                            "place": "place_name2",
-                            "stars": 5,
-                            "description": "place_description2 scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
-                            "time_spend": "amount_of_time_to_spend2",
-                            "time": "time_to_visit2",
-                            "latitude": "lat",
-                            "longitude": "long",
-                            "cost": "cost2"
-                        }
-                    ],
-                    [
-                        {
-                            "place_id": "day2_place_id",
-                            "place": "day2_place_name",
-                            "stars": 4,
-                            "description": "day2_place_description  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
-                            "time_spend": "day2_amount_of_time_to_spend",
-                            "time": "day2_time_to_visit",
-                            "latitude": "lat",
-                            "longitude": "long",
-                            "cost": "day2_cost"
-                        },
-                        {
-                            "place_id": "day2_place_id2",
-                            "place": "day2_place_name2",
-                            "stars": 2,
-                            "description": "day2_place_description2  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
-                            "time_spend": "day2_amount_of_time_to_spend2",
-                            "time": "day2_time_to_visit2",
-                            "latitude": "lat",
-                            "longitude": "long",
-                            "cost": "day2_cost2"
-                        }
-                    ]
-        ]
-    }
+
     for day in plan['tour']:
         for place in day:
-            place['stars'] = range(place['stars'])
+            try:
+                place['rating'] = range(place['rating'])
+            except:
+                pass
     return HttpResponse(loader.get_template("show_plan.html").render(plan))
 
 def thanks(request):
-	return HttpResponse("Hello World")
+    return HttpResponse("Hello World")
 
-def 
+def show_map(request):
+    tour = plan["tour"]
+    return render(request , 'map.html' , {
+        'plan' : json.dumps(tour),
+        'start_date' : plan['start_date'], #mm/dd/yy
+        'city' : plan['city']
+    });
