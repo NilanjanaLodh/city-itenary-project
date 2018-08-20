@@ -1,5 +1,5 @@
-/node_modules
-/*.sqlite3
-/.DS_Store
-/*.pyc
+**/node_modules
+**/*.sqlite3
+**/.DS_Store
+**/*.pyc
 \.vscode/
