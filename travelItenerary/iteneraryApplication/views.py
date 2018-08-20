@@ -86,3 +86,22 @@ def show_plan(request):
 
 def thanks(request):
 	return HttpResponse("Hello World")
+
+def show_map(request):
+    plan = [
+    [
+        {"lat": 25.242992, "lng": 55.33269 , 'name': 'Park Hyatt Dubai'},
+        {"lat": 25.197405, "lng": 55.274331 , 'name' : 'At the top of burj khalifa'},
+        {"name": "The Dubai Mall", "lat": 25.198518, "lng": 55.279619},
+        {"lat": 25.1330986, "lng": 55.183466 , 'name': 'Madinat Jumeirah'}
+    ],
+    [
+        {"lat": 25.139409, "lng": 55.188844 , 'name': 'Wild wadi waterpark'},
+        {"lat": 25.1971411, "lng": 55.2796665 , 'name' : 'Dubai ice rink'}
+    ]
+    ];
+    return render(request , 'map.htm' , {
+        'plan' : json.dumps(plan),
+        'start_date' : '08/21/2018', #mm/dd/yy
+        'city' : 'Dubai'
+    });
