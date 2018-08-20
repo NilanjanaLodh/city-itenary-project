@@ -20,14 +20,14 @@ class Type(models.Model):
 		return '%s' % self.type_name.replace("_", " ")
 
 class PointOfInterest(models.Model):
-	POI_id = models.TextField()
+	POI_id = models.TextField(primary_key=True)
 	POI_image_src = models.URLField()
 	POI_name = models.CharField(max_length=40)
 	formatted_address = models.TextField()
 	formatted_phoneNo = models.CharField(max_length=15)
 	latitude = models.DecimalField( max_digits=5, decimal_places=2)
 	longitude = models.DecimalField( max_digits=5, decimal_places=2)
-	no_people_who_rated = models.IntegerField()
+	no_people_who_rated = models.IntegerField(default = 1)
 	rating = models.DecimalField(max_digits = 2, decimal_places = 1)
 	POI_map_url = models.URLField()
 	POI_website_url = models.URLField()
@@ -43,11 +43,11 @@ class OpenCloseTime(models.Model):
 	open_time = models.IntegerField()
 	close_time = models.IntegerField()
 	day = models.IntegerField()
-	POI = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, verbose_name="the opening and closing time of the corresponding point of interest on a certain day",)
+	POI = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, verbose_name="the opening and closing time of the corresponding point of interest on a certain day",null=True,blank=True)
 
 
 class Photo(models.Model):
-	photo_id = models.TextField()
+	photo_id = models.TextField(primary_key=True)
 	height = models.IntegerField()
 	width = models.IntegerField()
 	photo_src = models.URLField()
@@ -61,6 +61,12 @@ class Form(models.Model):
 	start_date = models.DateField(_("Start Date"), default=date.today)
 	end_date = models.DateField(_("End Date"), default=date.today)
 	type_tags = models.ManyToManyField(Type,null=True,blank=True)
+
+class DistanceTime(models.Model):
+	source = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "source_set",null=True,blank=True)
+	dest = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "dest_set",null=True,blank=True)
+	distance = models.DecimalField(max_digits=5, decimal_places = 2)
+	time = models.IntegerField()
 
 
 # Create your models here.

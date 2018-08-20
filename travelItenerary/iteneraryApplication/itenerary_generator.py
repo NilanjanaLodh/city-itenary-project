@@ -30,7 +30,7 @@ def generate_itenerary(form):
 		cluster_list[kmeans.label_[i]].append(POI_list[i])
 
 	cluster_list = tsp_POI_delegation(cluster_list)
-
+	return cluster_list
 
 def kMeanClustering(POI_list,no_days):
 	coord_matrix = []
@@ -62,3 +62,5 @@ def tsp_POI_delegation(cluster_list):
 			time = calculate_time(cluster_list[i])
 
 	return cluster_list
+
+def 
