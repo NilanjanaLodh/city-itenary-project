@@ -20,7 +20,7 @@ class Type(models.Model):
 		return '%s' % self.type_name.replace("_", " ")
 
 class PointOfInterest(models.Model):
-	POI_id = models.TextField()
+	POI_id = models.TextField(primary_key=True)
 	POI_image_src = models.URLField()
 	POI_name = models.CharField(max_length=40)
 	formatted_address = models.TextField()
@@ -60,6 +60,13 @@ class Form(models.Model):
 	start_date = models.DateField(_("Start Date"), default=date.today)
 	end_date = models.DateField(_("End Date"), default=date.today)
 	type_tags = models.ManyToManyField(Type,null=True,blank=True)
+
+
+class DistanceTime(models.Model):
+	source = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "source_set",null=True,blank=True)
+	dest = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "dest_set",null=True,blank=True)
+	distance = models.DecimalField(max_digits=10, decimal_places = 2)
+	time = models.IntegerField()
 
 
 # Create your models here.
