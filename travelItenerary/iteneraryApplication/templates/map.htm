@@ -1,0 +1,478 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns:og="http://opengraphprotocol.org/schema/" class="gr__inspirock_com" style="height: 100%;">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css">
+    .gm-style .gm-style-iw {
+      font-weight: 300;
+      font-size: 13px;
+      overflow: hidden
+    }
+
+    .gm-style .gm-iw {
+      color: #2c2c2c
+    }
+
+    .gm-style .gm-iw b {
+      font-weight: 400
+    }
+
+    .gm-style .gm-iw a:link,
+    .gm-style .gm-iw a:visited {
+      color: #4272db;
+      text-decoration: none
+    }
+
+    .gm-style .gm-iw a:hover {
+      color: #4272db;
+      text-decoration: underline
+    }
+
+    .gm-style .gm-iw .gm-title {
+      font-weight: 400;
+      margin-bottom: 1px
+    }
+
+    .gm-style .gm-iw .gm-basicinfo {
+      line-height: 18px;
+      padding-bottom: 12px
+    }
+
+    .gm-style .gm-iw .gm-website {
+      padding-top: 6px
+    }
+
+    .gm-style .gm-iw .gm-photos {
+      padding-bottom: 8px;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none
+    }
+
+    .gm-style .gm-iw .gm-sv,
+    .gm-style .gm-iw .gm-ph {
+      cursor: pointer;
+      height: 50px;
+      width: 100px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .gm-style .gm-iw .gm-sv {
+      padding-right: 4px
+    }
+
+    .gm-style .gm-iw .gm-wsv {
+      cursor: pointer;
+      position: relative;
+      overflow: hidden
+    }
+
+    .gm-style .gm-iw .gm-sv-label,
+    .gm-style .gm-iw .gm-ph-label {
+      cursor: pointer;
+      position: absolute;
+      bottom: 6px;
+      color: #fff;
+      font-weight: 400;
+      text-shadow: rgba(0, 0, 0, 0.7) 0 1px 4px;
+      font-size: 12px
+    }
+
+    .gm-style .gm-iw .gm-stars-b,
+    .gm-style .gm-iw .gm-stars-f {
+      height: 13px;
+      font-size: 0
+    }
+
+    .gm-style .gm-iw .gm-stars-b {
+      position: relative;
+      background-position: 0 0;
+      width: 65px;
+      top: 3px;
+      margin: 0 5px
+    }
+
+    .gm-style .gm-iw .gm-rev {
+      line-height: 20px;
+      -ms-user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none
+    }
+
+    .gm-style.gm-china .gm-iw .gm-rev {
+      display: none
+    }
+
+    .gm-style .gm-iw .gm-numeric-rev {
+      font-size: 16px;
+      color: #dd4b39;
+      font-weight: 400
+    }
+
+    .gm-style .gm-iw.gm-transit {
+      margin-left: 15px
+    }
+
+    .gm-style .gm-iw.gm-transit td {
+      vertical-align: top
+    }
+
+    .gm-style .gm-iw.gm-transit .gm-time {
+      white-space: nowrap;
+      color: #676767;
+      font-weight: bold
+    }
+
+    .gm-style .gm-iw.gm-transit img {
+      width: 15px;
+      height: 15px;
+      margin: 1px 5px 0 -20px;
+      float: left
+    }
+
+    .gm-iw {
+      text-align: left;
+    }
+
+    .gm-iw .gm-numeric-rev {
+      float: left;
+    }
+
+    .gm-iw .gm-photos,
+    .gm-iw .gm-rev {
+      direction: ltr;
+    }
+
+    .gm-iw .gm-stars-f,
+    .gm-iw .gm-stars-b {
+      background: url("https://maps.gstatic.com/mapfiles/api-3/images/review_stars_hdpi.png") no-repeat;
+      background-size: 65px 26px;
+      float: left;
+    }
+
+    .gm-iw .gm-stars-f {
+      background-position: left -13px;
+    }
+
+    .gm-iw .gm-sv-label,
+    .gm-iw .gm-ph-label {
+      left: 4px;
+    }
+  </style>
+  <style type="text/css">
+    .gm-style .gm-style-mtc label,
+    .gm-style .gm-style-mtc div {
+      font-weight: 400
+    }
+  </style>
+  <style type="text/css">
+    .gm-control-active img,
+    .gm-svpc img {
+      box-sizing: content-box
+    }
+
+    .gm-control-active:hover img:nth-child(1),
+    .gm-control-active:active img:nth-child(1),
+    .gm-control-active:active img:nth-child(2) {
+      display: none
+    }
+  </style>
+  <style type="text/css">
+    .gm-style .gm-style-cc span,
+    .gm-style .gm-style-cc a,
+    .gm-style .gm-style-mtc div {
+      font-size: 10px
+    }
+  </style>
+  <style type="text/css">
+    @media print {
+      .gm-style .gmnoprint,
+      .gmnoprint {
+        display: none
+      }
+    }
+
+    @media screen {
+      .gm-style .gmnoscreen,
+      .gmnoscreen {
+        display: none
+      }
+    }
+  </style>
+  <style type="text/css">
+    .gm-style-pbc {
+      transition: opacity ease-in-out;
+      background-color: rgba(0, 0, 0, 0.45);
+      text-align: center
+    }
+
+    .gm-style-pbt {
+      font-size: 22px;
+      color: white;
+      font-family: Roboto, Arial, sans-serif;
+      position: relative;
+      margin: 0;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%)
+    }
+  </style>
+
+  <title>Itenary planner</title>
+
+  <link rel="preconnect" href="https://netdna.bootstrapcdn.com/" crossorigin="">
+  <link rel="dns-prefetch" href="https://netdna.bootstrapcdn.com/">
+
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/mapcss1.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/mapcss2.css' %}">
+
+
+  <style type="text/css">
+    .fancybox-margin {
+      margin-right: 0px;
+    }
+  </style>
+
+  <style></style>
+  <style type="text/css">
+    .gm-style {
+      font: 400 11px Roboto, Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .gm-style img {
+      max-width: none;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<input type="hidden" id="plan" name="variable" value="{{ plan }}" readonly>
+<input type="hidden" id="start_date" name="variable" value="{{ start_date }}" readonly>
+
+<body class="resultspage edit-enabled normal" style="position: relative; min-height: 100%; top: 0px;">
+
+  <script>
+    (function() {
+      console.log('top function');
+      curr_daynum = 0;
+      plan = JSON.parse(document.getElementById('plan').value);
+      start_date = new Date(document.getElementById('start_date').value);
+      // console.log('YO' + start_date);
+    }());
+  </script>
+
+  <div id="pageWrapper" class="page-wrapper ">
+
+    <div class="page-content  clear plan-header-hidden" id="pageContent">
+
+
+      <div class="plan-content" id="planContent">
+        <div class="resultpage-content" id="resultpageContent" style="opacity: 1;">
+
+          <!-- Dont mess -->
+          <div id="itineraryLeftTimelinePane" class="itinerary-left-timeline-pane  col-1 maps" style="">
+            <div id="dayList" class="day-boxes">
+              <div class="day-box in-plan">
+                <div class="month">Days</div>
+              </div>
+
+              <!-- <div class="day-box in-plan active">
+                <div class="day text-link">1</div>
+              </div> -->
+
+
+            </div>
+          </div>
+          <script>
+            // function to change the active date
+            (function() {
+
+              console.log('iife');
+
+              let dayListElem = $('#dayList');
+              dayListElem.append('<div class="day-box in-plan active"><div class="day text-link">' + 1 + '</div></div>');
+              for (let i = 2; i <= plan.length; i++) {
+                dayListElem.append('<div class="day-box in-plan"><div class="day text-link">' + i + '</div></div>');
+              }
+
+              $('.day-box.in-plan').on('click', function() { // internally will iterate and add listener to each li
+                let clickedElem = $(this);
+                clickedElem.parent().find('.active').removeClass('active'); // go to parent and then find li
+                clickedElem.addClass('active');
+                curr_daynum = parseInt(clickedElem.text()) - 1;
+                calculateAndDisplayRoute();
+                displayMapLegend();
+                displayDate();
+              });
+            })();
+          </script>
+          <!-- /Dont mess -->
+
+
+          <div id="itineraryMainPane" class="itinerary-main-pane  col-9 daybyday">
+            <div id="maps" class="itinerary-maps-pane">
+
+
+              <!--Dont mess with this div-->
+              <div id="map-holder">
+                <div class="map-day-title day-title clearfix">
+                  <div class="day-title-container">
+                    <div class="day">
+                      <div class="mon"> </div>
+                      <div class="date"> </div>
+                      <div class="dow"> </div>
+                    </div>
+                    <div class="in-wrap">
+                      <div class="bar"></div>
+                    </div>
+                    <div class="stay-area">
+                      <div class="stayName">{{city}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script>
+                function displayDate(){
+                  console.log(curr_daynum);
+                  let curr_date = new Date(start_date);
+                  curr_date.setDate(curr_date.getDate() + curr_daynum);
+                  let arr = curr_date.toString().split(' ');
+                  $('.mon').text(arr[1]);
+                  $('.date').text(arr[2]);
+                  $('.dow').text(arr[0]);
+                }
+              </script>
+              <!-- /Dont mess -->
+
+
+              <!-- Dont mess -->
+              <div class="map-wrap">
+                <div id="mapCanvas" class="mapCanvas" style="position: relative; overflow: hidden;"></div>
+                <div class="map-legend">
+                  <ol class="legend-day-list">
+                    <li id="stay-1-2018-08-14" class="legendOption">
+                      <ul id="placeList">
+
+                        <!-- <li class="visit-name">
+                          <span>
+                                <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">A</span>
+                          <span class="name">Place 1</span>
+                          </span>
+                          <div class="clear"></div>
+                        </li> -->
+
+                        <!-- <li class="hop-duration bg-stripe">
+                          <a class="directions text-link" href="javascript:void(0)" target="_blank"> x mins</a>
+                        </li> -->
+
+                      </ul>
+                    </li>
+                  </ol>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <script>
+                function displayMapLegend() {
+                  let route = plan[curr_daynum];
+                  let placeListElem = $('#placeList');
+                  placeListElem.empty();
+                  for (let i = 0; i < route.length; i++) {
+                    let placeHtml =
+                      `<li class="visit-name">
+                        <span>
+                              <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">
+                              ${String.fromCharCode('A'.charCodeAt(0) + i)}
+                              </span>
+                        <span class="name">${route[i].name}</span>
+                        </span>
+                        <div class="clear"></div>
+                      </li>`;
+                    let travelHtml = "";
+                    if (i != route.length - 1){
+                      travelHtml =
+                      `<li class="hop-duration bg-stripe">
+                        <a class="directions text-link" href="javascript:void(0)" target="_blank"> x mins</a>
+                      </li>`;
+                    }
+                    placeListElem.append(placeHtml + travelHtml);
+                  }
+                }
+              </script>
+              <!-- /Dont mess -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <script>
+    var directionsService;
+    var directionsDisplay;
+
+    console.log(plan);
+    var map;
+
+    function initMap() {
+      console.log('initMap');
+      directionsService = new google.maps.DirectionsService;
+      directionsDisplay = new google.maps.DirectionsRenderer;
+      map = new google.maps.Map(document.getElementById('mapCanvas'), {
+        center: {
+          lat: 25.2048493,
+          lng: 55.2707828
+        }, //dubai
+        zoom: 9
+      });
+      console.log(map);
+      directionsDisplay.setMap(map);
+      calculateAndDisplayRoute();
+      displayMapLegend();
+      displayDate();
+    }
+
+    function calculateAndDisplayRoute() {
+      let route = plan[curr_daynum];
+      console.log('calculateAndDisplayRoute');
+      var waypoints = [];
+      for (var i = 1; i < route.length - 1; i++) {
+        waypoints.push({
+          location: new google.maps.LatLng(route[i]['lat'], route[i]['lng']),
+          stopover: true
+        });
+      }
+      directionsService.route({
+        origin: new google.maps.LatLng(route[0]['lat'], route[0]['lng']),
+        destination: new google.maps.LatLng(route[route.length - 1]['lat'], route[route.length - 1]['lng']),
+        travelMode: 'DRIVING',
+        waypoints: waypoints
+      }, function(response, status) {
+        if (status === 'OK') {
+          console.log('response returned');
+          console.log(response);
+          directionsDisplay.setDirections(response);
+          console.log('set directions');
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+    }
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh9jfDgzqM654rjJIpf89VWOwtneaB-6g&callback=initMap" async defer></script>
+
+
+
+</body>
+
+</html>
