@@ -17,21 +17,27 @@ def gratification_sort(POI):
 	return grat_score_dict[POI]
 
 def generate_itenerary(form):
-	city = form.city
-	start_date = form.start_date
-	end_date = form.end_date
+	city = form['city']
+	start_date = form['start_date']
+	end_date = form['end_date']
 
-	no_days = (end_date - start_date).days
+	no_days = (end_date - start_date).days + 1
 	POI_list = PointOfInterest.objects.filter(POI_city = city)
+	print POI_list
+	# kmeans = kMeanClustering(POI_list,no_days)
+	# # print(kmeans.labels_)
+	# cluster_list = []
 
-	kmeans = kMeanClustering(POI_list,no_days)
-	cluster_list = np.empty(no_days,0)
+	# for i in range(0,no_days):
+	# 	cluster_list.append([])
 
-	for i in range(0,len(POI_list)):
-		cluster_list[kmeans.label_[i]].append(POI_list[i])
+	# for i in range(0,len(POI_list)):
+	# 	cluster_list[kmeans.labels_[i]] = np.append(cluster_list[kmeans.labels_[i]],POI_list[i])
+	# print(cluster_list)
 
-	cluster_list = tsp_POI_delegation(cluster_list)
-	return cluster_list
+	# cluster_list = tsp_POI_delegation(cluster_list)
+	# output = itenerary_json(cluster_list,form)
+	# return output
 
 def kMeanClustering(POI_list,no_days):
 	coord_matrix = []
@@ -66,10 +72,7 @@ def tsp_POI_delegation(cluster_list):
 
 def itenerary_json(cluster_list,form):
 	json_output=""
-	"city": "Dubai",
-    "start_date": "08/21/2018",
-    "days": 2,
-    city = form.city
+	city = form.city
 	start_date = form.start_date
 	end_date = form.end_date
 	no_days = (end_date - start_date).days

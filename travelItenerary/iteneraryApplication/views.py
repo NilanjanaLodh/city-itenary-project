@@ -5,6 +5,7 @@ from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .iteneraryform import IteneraryForm
 import json
+from .itenerary_generator import generate_itenerary
 
 # Create your views here.
 plan = {
@@ -86,8 +87,14 @@ def itenerary_form(request):
         form = IteneraryForm(request.POST)
         if form.is_valid():
             form.save()
+            context = dict()
+            context['city']= form.cleaned_data.get("city")
+            context['start_date'] = form.cleaned_data.get("start_date")
+            context['end_date'] = form.cleaned_data.get("end_date")
+            context['type_tags'] = form.cleaned_data.get("type_tags")
             # return HttpResponse('hfggh')
-            return HttpResponseRedirect('/iteneraryApplication/show_plan/')
+            generate_itenerary(context)
+            HttpResponseRedirect('/show_plan/');
     
         # return render(request, 'templates/index2.html', {'form': itene})
     return render(request, 'index2.html', {'form': form})
