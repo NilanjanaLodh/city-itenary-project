@@ -16,7 +16,10 @@ for root, dirs, files in os.walk(os.path.abspath(os.path.join(os.getcwd(), os.pa
             with open(file_name) as data:
                 for line in data.readlines():
                     json_data = json.loads(line)
-                    source_object = PointOfInterest.objects.get(POI_id=json_data['source'])
-                    dest_object = PointOfInterest.objects.get(POI_id=json_data['dest'])
-                    disttime_object = DistanceTime(source = source_object, dest = dest_object, distance = json_data['dist'], time = json_data['time'])
-                    disttime_object.save()
+                    try:
+                        source_object = PointOfInterest.objects.get(POI_id=json_data['source'])
+                        dest_object = PointOfInterest.objects.get(POI_id=json_data['dest'])
+                        disttime_object = DistanceTime(source = source_object, dest = dest_object, distance = json_data['dist'], time = json_data['time'])
+                        disttime_object.save()
+                    except:
+                        print json_data['source'], json_data['dest'], "<<<<<<<<"

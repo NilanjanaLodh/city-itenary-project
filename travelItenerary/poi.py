@@ -23,7 +23,8 @@ for root, dirs, files in os.walk(os.path.abspath(os.path.join(os.getcwd(), os.pa
                     new_poi.longitude = json_data['lng']
                     new_poi.rating = json_data['rating']
                     new_poi.POI_city = City.objects.get(city_name = os.path.dirname(file_name).split('/')[-3])
-                    
+                    if new_poi.POI_city.city_name == "Shanghai": 
+                        print ">>>>>>" + new_poi.POI_id
                     new_poi.save()
                     
                     poi_types = json_data['types']

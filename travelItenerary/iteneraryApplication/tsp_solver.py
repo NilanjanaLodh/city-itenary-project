@@ -12,14 +12,15 @@ def create_distance_callback(dist_matrix):
 	return distance_callback
 
 def create_distance_matrix(POI_list):
-	dist_matrix = np.zeros(no_POI,no_POI)
+	no_POI = len(POI_list)
+	dist_matrix = np.zeros((no_POI,no_POI))
 	for i in range(0,len(POI_list)):
 		for j in range(0,len(POI_list)):
 			if i==j:
 				dist_matrix[i][j] = 0
 			else:
 				distance_i_to_j_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[j])
-				dist_matrix[i][j] = distance_i_to_j_object.time
+				dist_matrix[i][j] = distance_i_to_j_object[0].time
 	return dist_matrix
 
 
@@ -66,24 +67,24 @@ def calculate_time(path):
 	path_len = len(path)
 	time=0;
 	for i in range(0,path_len-1):
-		distance_to_next_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[i+1])
+		distance_to_next_object = DistanceTime.objects.filter(source = path[i], dest = path[i+1])
 		time+=path[i].average_time_spent
-		time+=distance_to_next_object.time
+		time+=distance_to_next_object[0].time
 	time+=path[path_len-1].average_time_spent
 	return time
 
-def calculate_time_upto(POI, POI_list):
+def calculate_time_upto(POI, path):
 	path_len = len(path)
 	time=0;
 	for i in range(0,path_len-1):
-		if POI_list[i] == POI:
+		if path[i] == POI:
 			return time
 
-		distance_to_next_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[i+1])
+		distance_to_next_object = DistanceTime.objects.filter(source = path[i], dest = path[i+1])
 		time+=path[i].average_time_spent
-		time+=distance_to_next_object.time
+		time+=distance_to_next_object[0].time
 
-	if POI_list[path_len-1] == POI:
+	if path[path_len-1] == POI:
 		return time
 
 	return -1
