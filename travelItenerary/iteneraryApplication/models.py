@@ -27,6 +27,7 @@ class PointOfInterest(models.Model):
 	formatted_phoneNo = models.CharField(max_length=15)
 	latitude = models.DecimalField( max_digits=5, decimal_places=2)
 	longitude = models.DecimalField( max_digits=5, decimal_places=2)
+	no_people_who_rated = models.IntegerField()
 	rating = models.DecimalField(max_digits = 2, decimal_places = 1)
 	POI_map_url = models.URLField()
 	POI_website_url = models.URLField()
