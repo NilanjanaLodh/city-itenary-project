@@ -1,5 +1,6 @@
-/node_modules
-/*.sqlite3
-/.DS_Store
-/*.pyc
-\.vscode/
+**/node_modules
+**/*.sqlite3
+**/.DS_Store
+**/*.pyc
+\.vscode/*.pyc
+**/migrations
