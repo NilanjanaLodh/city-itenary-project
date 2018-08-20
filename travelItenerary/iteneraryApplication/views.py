@@ -13,16 +13,13 @@ def itenerary_form(request):
 	if request.method == "POST":
 		form = IteneraryForm(request.POST)
 		if form.is_valid():
-			# form.save()
+			form.save()
 			# return HttpResponse('hfggh')
 			return HttpResponseRedirect('/iteneraryApplication/show_plan/')
 	
 		# return render(request, 'templates/index2.html', {'form': itene})
 	return render(request, 'index2.html', {'form': form})
 	# return render(request, html template page to return after form, params for form)
-
-def thanks(request):
-	return HttpResponse("Hello World")
 
 
 def show_plan(request):
@@ -47,7 +44,7 @@ def show_plan(request):
                         {
                             "place_id": "place_id2",
                             "place": "place_name2",
-                            "stars": 5,
+                            "rating": 5,
                             "description": "place_description2 scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "amount_of_time_to_spend2",
                             "time": "time_to_visit2",
@@ -60,7 +57,7 @@ def show_plan(request):
                         {
                             "place_id": "day2_place_id",
                             "place": "day2_place_name",
-                            "stars": 4,
+                            "rating": 4,
                             "description": "day2_place_description  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "day2_amount_of_time_to_spend",
                             "time": "day2_time_to_visit",
@@ -71,7 +68,7 @@ def show_plan(request):
                         {
                             "place_id": "day2_place_id2",
                             "place": "day2_place_name2",
-                            "stars": 2,
+                            "rating": 2,
                             "description": "day2_place_description2  scmsdk cnmsdk cnsd ksdkc sdmk cdnskcn sdkcnsd kcndskc mdskcn dksc ns",
                             "time_spend": "day2_amount_of_time_to_spend2",
                             "time": "day2_time_to_visit2",
@@ -84,7 +81,7 @@ def show_plan(request):
     }
     for day in plan['tour']:
         for place in day:
-            place['stars'] = range(place['stars'])
+            place['rating'] = range(place['rating'])
     return HttpResponse(loader.get_template("show_plan.html").render(plan))
 
 def thanks(request):

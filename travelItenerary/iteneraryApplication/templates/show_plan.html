@@ -96,7 +96,7 @@
                           <h4>{{ place.time }}</h4>
                           <h4 class="subheading">{{ place.place }}</h4>
                           <h6>                       
-                            {% for star in place.stars %}
+                            {% for star in place.rating %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
                           </h6>
@@ -162,7 +162,7 @@
                           <h4>{{ place.time }}</h4>
                           <h4 class="subheading">{{ place.place }}</h4>
                           <h6>                       
-                            {% for star in place.stars %}
+                            {% for star in place.rating %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
                           </h6>
