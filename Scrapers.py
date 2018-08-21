@@ -23,7 +23,7 @@ def get_api_key():
     global api_keys
     keynum += 1
     keynum %= len(api_keys)
-    time.sleep(3)
+    time.sleep(.5)
     return api_keys[keynum]
 
 

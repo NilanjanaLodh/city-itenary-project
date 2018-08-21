@@ -4,3 +4,4 @@
 **/*.pyc
 \.vscode/*.pyc
 **/migrations
+**/db.sqlite3

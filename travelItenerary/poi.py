@@ -34,8 +34,3 @@ for root, dirs, files in os.walk(os.path.abspath(os.path.join(os.getcwd(), os.pa
 
                 except: pass
 
-
-
-
-
-

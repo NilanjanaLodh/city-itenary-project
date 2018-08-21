@@ -3,7 +3,7 @@ from Scrapers import CityScraper
 
 def main():
     # Barcelona
-    cities = [ 'Bangkok', 'Seoul',  'Paris' 'Milan' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
+    cities = [ 'Bangkok',  'Paris' 'Milan' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
         'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
         'Hong Kong', 'Riyadh','Los Angeles'
     ]

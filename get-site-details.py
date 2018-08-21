@@ -5,10 +5,11 @@ import json
 datadir = './data'
 def main():
     # Paris, ,'Milan'
-    cities = [ 'Bangkok', 'Seoul' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
+    done = [ 'Bangkok', 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
         'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
-        'Hong Kong', 'Riyadh','Los Angeles'
+        'Hong Kong', 'Riyadh','Los Angeles', 'Paris' , 'Milan'
     ]
+    cities = ['Singapore' , 'Taipei' , 'Rome']
     for city in cities:
         print '\n\nscraping city {}'.format(city)
         citydir = '{}/{}'.format(datadir, city)
