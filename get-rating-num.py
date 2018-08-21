@@ -24,10 +24,10 @@ def get_rating_num(placeQueryString):
 
 
 #ignore seoul ; google maps not available here
-cities = [ 'Shanghai', 'London',  'New York', 'Amsterdam', 'Istanbul','Tokyo', 
+cities = [ 'Bangkok' , 'Singapore' , 'Rome' , 'Taipei', 
+    'Shanghai', 'London',  'New York', 'Amsterdam', 'Istanbul','Tokyo', 
     'Dubai', 'Vienna', 'Kuala Lumpur',
-    'Los Angeles', 'Paris', 'Milan','Hong Kong','Riyadh'
-]
+    'Los Angeles', 'Paris', 'Milan','Hong Kong','Riyadh']
 datadir = './data'
 for city in cities:
     print(city)
