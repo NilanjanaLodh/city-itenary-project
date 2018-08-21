@@ -56,11 +56,7 @@ def get_distances_for_city(cityname):
 
 
 #ignore seoul ; google maps not available here
-cities = [ 'Shanghai', 'London',  'New York', 'Amsterdam', 'Istanbul','Tokyo', 
-    'Dubai', 'Vienna', 'Kuala Lumpur',
-    'Los Angeles', 'Paris', 'Milan','Hong Kong','Riyadh'
-]
-
+from citylist import cities
 for city in cities:
     print city
     get_distances_for_city(city)

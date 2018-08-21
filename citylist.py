@@ -1,0 +1,20 @@
+cities = [
+    'Amsterdam',
+    'Bangkok',
+    'Dubai',
+    'Hong Kong',
+    'Istanbul',
+    'Kuala Lumpur',
+    'London',
+    'Los Angeles',
+    'Milan',
+    'New York',
+    'Paris',
+    'Riyadh',
+    'Rome',
+    'Shanghai',
+    'Singapore',
+    'Taipei',
+    'Tokyo',
+    'Vienna'
+]

@@ -1,15 +1,11 @@
 from Scrapers import SiteScraper
 import os
 import json
+from citylist import cities
 
 datadir = './data'
 def main():
     # Paris, ,'Milan'
-    done = [ 'Bangkok', 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
-        'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
-        'Hong Kong', 'Riyadh','Los Angeles', 'Paris' , 'Milan'
-    ]
-    cities = ['Singapore' , 'Taipei' , 'Rome']
     for city in cities:
         print '\n\nscraping city {}'.format(city)
         citydir = '{}/{}'.format(datadir, city)

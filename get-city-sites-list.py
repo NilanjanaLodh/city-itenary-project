@@ -1,12 +1,8 @@
 from Scrapers import CityScraper
-
+from citylist import cities
 
 def main():
-    # Barcelona
-    cities = [ 'Bangkok',  'Paris' 'Milan' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
-        'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
-        'Hong Kong', 'Riyadh','Los Angeles'
-    ]
+    
     for city in cities:
         print 'collecting data for {}'.format(city)
         scraper = CityScraper(city)

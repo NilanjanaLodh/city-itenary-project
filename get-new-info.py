@@ -41,10 +41,7 @@ def fetch_new_info(placeid):
         new_info['avg_time_spent'] = mean(response['time_spent'])
     return new_info
 
-cities = [ 'Bangkok',  'Paris' , 'Milan' , 'London', 'Shanghai', 'New York', 'Amsterdam', 'Istanbul',
-        'Tokyo', 'Dubai', 'Vienna', 'Kuala Lumpur',
-        'Hong Kong', 'Riyadh','Los Angeles'
-    ]
+from citylist import cities
 
 for city in cities:
         print('\n\ncity {}'.format(city))
