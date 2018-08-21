@@ -50,6 +50,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="/iteneraryApplication/form">Home</a>
+            </li>
             <li class="nav-item active">
               <a class="nav-link js-scroll-trigger" href="/iteneraryApplication/show_plan">Plan</a>
             </li>
@@ -93,7 +96,7 @@
                           <h4>{{ place.time }}</h4>
                           <h4 class="subheading">{{ place.name }}</h4>
                           <h6>                       
-                            {% for star in place.rating %}
+                            {% for star in place.rating_len %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
                           </h6>
@@ -157,7 +160,7 @@
                           <h4>{{ place.time }}</h4>
                           <h4 class="subheading">{{ place.name }}</h4>
                           <h6>                       
-                            {% for star in place.rating %}
+                            {% for star in place.rating_len %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
                           </h6>

@@ -34,13 +34,14 @@ def generate_itenerary(form):
 
 	for i in range(0,len(POI_list)):
 		cluster_list[kmeans.labels_[i]].append(POI_list[i])
-	# print(cluster_list[0])
+	
+	
 
 	cluster_list = tsp_POI_delegation(cluster_list)
 	# print(cluster_list[0])
 	output = itenerary_json(cluster_list,form)
-	print(output)
-	# return output
+	#print(output)
+	return output
 
 def kMeanClustering(POI_list,no_days):
 	coord_matrix = []
