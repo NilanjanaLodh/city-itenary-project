@@ -5,7 +5,7 @@ from django.shortcuts import render,HttpResponse, HttpResponseRedirect
 from django.template import loader
 from .iteneraryform import IteneraryForm
 import json
-<<<<<<< HEAD
+from .itenerary_generator import generate_itenerary
 from models import *
 import os
 from django.conf import settings
@@ -85,12 +85,7 @@ plan = {
 
 def get_image_url(city, place_id, ct):
     return "img/data/" + city + "/sites/" + place_id + "/" + ct + ".jpeg"
-=======
-from .itenerary_generator import generate_itenerary
 
-# Create your views here.
-plan = ""
->>>>>>> 7ee039262d31c610b8f9ebdb97f876733a089eb7
 
 def itenerary_form(request): 
     form = IteneraryForm()
