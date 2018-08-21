@@ -99,20 +99,17 @@ def add_images_rating(given_plan):
     return given_plan
 
 def am_pm(value):
-    if value > 12.00:
-        hr = str(int(value)-12)
-        mn = int((value - float(int(value))) * 60)
-        if mn == 0:
-            return hr + "pm"
-        else:
-            return hr + ":" + str(mn) + "pm"
+    hr = int(value)
+    mn = int((value*60) % 60)
+    if hr > 12:
+        if mn < 10: return str(hr-12) + " : 0" + str(mn) + " pm"
+        else: return str(hr-12) + " : " + str(mn) + " pm"
+    elif hr == 12:
+        if mn < 10: return str(hr) + " : 0" + str(mn) + " pm"
+        else: return str(hr) + " : " + str(mn) + " pm"
     else:
-        hr = str(int(value))
-        mn = int((value - float(int(value))) * 60)
-        if mn == 0:
-            return hr + "am"
-        else:
-            return hr + ":" + str(mn) + "am"
+        if mn < 10: return str(hr) + " : 0" + str(mn) + " am"
+        else: return str(hr) + " : " + str(mn) + " am"
 
 
 

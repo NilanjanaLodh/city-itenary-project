@@ -71,6 +71,7 @@ def tsp_POI_delegation(cluster_list):
 	while(time>half_day_time):
 			del cluster_list[i][-1]			#removing the last element to fit the time inside half a day
 			time = calculate_time(cluster_list[i])
+	
 
 	return cluster_list
 

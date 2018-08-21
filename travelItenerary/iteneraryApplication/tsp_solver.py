@@ -2,6 +2,7 @@ from ortools.constraint_solver import pywrapcp
 from ortools.constraint_solver import routing_enums_pb2
 import numpy as np
 from .models import DistanceTime
+from decimal import *
 
 def create_distance_callback(dist_matrix):
   # Create a callback to calculate distances between cities.
@@ -20,7 +21,7 @@ def create_distance_matrix(POI_list):
 				dist_matrix[i][j] = 0
 			else:
 				distance_i_to_j_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[j])
-				dist_matrix[i][j] = distance_i_to_j_object[0].time/60.0
+				dist_matrix[i][j] = Decimal(distance_i_to_j_object[0].time/60.0)
 	return dist_matrix
 
 
@@ -69,7 +70,7 @@ def calculate_time(path):
 	for i in range(0,path_len-1):
 		distance_to_next_object = DistanceTime.objects.filter(source = path[i], dest = path[i+1])
 		time+=path[i].average_time_spent
-		time+=distance_to_next_object[0].time
+		time+=Decimal(distance_to_next_object[0].time/60.0)
 	time+=path[path_len-1].average_time_spent
 	return time
 
@@ -82,7 +83,7 @@ def calculate_time_upto(POI, path):
 
 		distance_to_next_object = DistanceTime.objects.filter(source = path[i], dest = path[i+1])
 		time+=path[i].average_time_spent
-		time+=distance_to_next_object[0].time
+		time+=Decimal(distance_to_next_object[0].time/60.0)
 
 	if path[path_len-1] == POI:
 		return time
