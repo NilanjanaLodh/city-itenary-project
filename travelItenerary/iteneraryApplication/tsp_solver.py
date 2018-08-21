@@ -20,7 +20,7 @@ def create_distance_matrix(POI_list):
 				dist_matrix[i][j] = 0
 			else:
 				distance_i_to_j_object = DistanceTime.objects.filter(source = POI_list[i], dest = POI_list[j])
-				dist_matrix[i][j] = distance_i_to_j_object[0].time
+				dist_matrix[i][j] = distance_i_to_j_object[0].time/60.0
 	return dist_matrix
 
 

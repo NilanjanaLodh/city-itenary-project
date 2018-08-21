@@ -98,6 +98,37 @@ def add_images_rating(given_plan):
             place['lng'] = float(place['lng'])
     return given_plan
 
+def am_pm(value):
+    if value > 12.00:
+        hr = str(int(value)-12)
+        mn = int((value - float(int(value))) * 60)
+        if mn == 0:
+            return hr + "pm"
+        else:
+            return hr + ":" + str(mn) + "pm"
+    else:
+        hr = str(int(value))
+        mn = int((value - float(int(value))) * 60)
+        if mn == 0:
+            return hr + "am"
+        else:
+            return hr + ":" + str(mn) + "am"
+
+
+
+def get_time_string(start, duration):
+    time_string = ""
+    time_string += am_pm(start + 9.00) + " to "
+    time_string += am_pm(start + 9.00 + duration) 
+    return time_string
+
+def correct_time_format(given_plan):
+    for day in given_plan['tour']:
+        for place in day:
+            time_spent = PointOfInterest.objects.get(POI_id = place['place_id']).average_time_spent
+            place['time_to_show'] = get_time_string(float(place['time']), float(time_spent))
+    return given_plan
+
 
 def itenerary_form(request): 
     form = IteneraryForm(
@@ -117,7 +148,7 @@ def itenerary_form(request):
             context['end_date'] = form.cleaned_data.get("end_date")
             context['type_tags'] = form.cleaned_data.get("type_tags")
             global plan
-            plan = add_images_rating(json.loads(generate_itenerary(context)))
+            plan = correct_time_format(add_images_rating(json.loads(generate_itenerary(context))))
             return HttpResponseRedirect('/iteneraryApplication/show_plan/');
     
         # return render(request, 'templates/index2.html', {'form': itene})

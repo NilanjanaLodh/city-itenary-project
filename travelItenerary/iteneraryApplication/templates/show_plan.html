@@ -93,9 +93,9 @@
                       </div>
                       <div class="timeline-panel">
                         <div class="timeline-heading">
-                          <h4>{{ place.time }}</h4>
+                          <h4>{{ place.time_to_show }}</h4>
                           <h4 class="subheading">{{ place.name }}</h4>
-                          <h6>                       
+                          <h6>{{place.rating}}                       
                             {% for star in place.rating_len %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
@@ -157,12 +157,13 @@
                       </div>
                       <div class="timeline-panel">
                         <div class="timeline-heading">
-                          <h4>{{ place.time }}</h4>
+                          <h4>{{ place.time_to_show }}</h4>
                           <h4 class="subheading">{{ place.name }}</h4>
                           <h6>                       
                             {% for star in place.rating_len %}
                               <span class="fa fa-star checked"></span>
                             {% endfor %}
+                            {{place.rating}}
                           </h6>
                         </div>
                         <div class="timeline-body">
