@@ -22,7 +22,7 @@ def gratification_score(POI,form):
 	POI_types = POI.types.all()
 	form_types = form['type_tags']
 
-	grat_score = 0
+	grat_score = 100
 	for type in form_types:
 		if type in POI_types:
 			grat_score+=matching_score

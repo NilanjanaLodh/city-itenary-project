@@ -11,6 +11,7 @@ half_day_time = 12
 grat_score_dict = dict()
 
 def generate_gratification_score_all(POI_list,form):
+	global grat_score_dict
 	for POI in POI_list:
 		grat_score_dict[POI]=gratification_score(POI,form)
 

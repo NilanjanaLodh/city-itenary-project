@@ -100,7 +100,13 @@ def add_images_rating(given_plan):
 
 
 def itenerary_form(request): 
-    form = IteneraryForm()
+    form = IteneraryForm(
+        initial = {
+            'city': '',
+            'start_date': '',
+            'end_date': ''
+        }
+        )
     if request.method == "POST":
         form = IteneraryForm(request.POST)
         if form.is_valid():
@@ -110,11 +116,8 @@ def itenerary_form(request):
             context['start_date'] = form.cleaned_data.get("start_date")
             context['end_date'] = form.cleaned_data.get("end_date")
             context['type_tags'] = form.cleaned_data.get("type_tags")
-            # return HttpResponse('hfggh')
             global plan
             plan = add_images_rating(json.loads(generate_itenerary(context)))
-            print "+++++++++++++++++++"
-            print(plan)
             return HttpResponseRedirect('/iteneraryApplication/show_plan/');
     
         # return render(request, 'templates/index2.html', {'form': itene})
