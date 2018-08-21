@@ -113,7 +113,6 @@ def show_plan(request):
                 place['images'].append(get_image_url(plan['city'], place['place_id'], str(i+1)))
             #place_obj = PointOfInterest(POI_id = place['place_id'])
             #for obj in Photo.objects.get()
-    print plan
     return HttpResponse(loader.get_template("show_plan.html").render(plan))
 
 def thanks(request):
