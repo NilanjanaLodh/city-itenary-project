@@ -10,7 +10,7 @@ class IteneraryForm(ModelForm):
 		widgets = {
 	      	'type_tags':forms.CheckboxSelectMultiple,
 	    	'start_date': forms.DateInput(attrs={'class':'datepicker', 'autocomplete': 'off'}),
-	    	'end_date': forms.DateInput(attrs={'class':'datepicker', 'autocomplete': 'off'}),
+	    	'end_date': forms.DateInput(attrs={'class':'datepicker', 'autocomplete': 'off'})
 	    }
 
 	def clean(self):
