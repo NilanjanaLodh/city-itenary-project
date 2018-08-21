@@ -65,7 +65,7 @@ class Form(models.Model):
 class DistanceTime(models.Model):
 	source = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "source_set",null=True,blank=True)
 	dest = models.ForeignKey(PointOfInterest, on_delete=models.CASCADE, related_name = "dest_set",null=True,blank=True)
-	distance = models.DecimalField(max_digits=5, decimal_places = 2)
+	distance = models.DecimalField(max_digits=15, decimal_places = 2)
 	time = models.IntegerField()
 
 
