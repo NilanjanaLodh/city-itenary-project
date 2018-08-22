@@ -3,7 +3,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 from tsp_solver import tsp_solver, calculate_time, calculate_time_upto
 from .gratification import gratification_score
-import json
+import json, copy
 from django.core.serializers.json import DjangoJSONEncoder
 
 half_day_time = 12
@@ -55,25 +55,28 @@ def kMeanClustering(POI_list,no_days):
 
 def tsp_POI_delegation(cluster_list):
 	no_days = len(cluster_list)
+	cluster_list_tsp = copy.deepcopy(cluster_list)
 	for i in range(0,no_days-1):
 		cluster_list[i].sort(key=gratification_sort, reverse=True)
-		cluster_list[i] = tsp_solver(cluster_list[i])
-		time = calculate_time(cluster_list[i])
+		cluster_list_tsp[i] = tsp_solver(cluster_list[i])
+		time = calculate_time(cluster_list_tsp[i])
 		while(time>half_day_time):
 			POI_to_delegate = cluster_list[i].pop(-1)				#removing the last element to fit the time inside half a day
 			cluster_list[i+1].append(POI_to_delegate)
-			time = calculate_time(cluster_list[i])
+			cluster_list_tsp[i] = tsp_solver(cluster_list[i])
+			time = calculate_time(cluster_list_tsp[i])
 
 	i = no_days-1
 	cluster_list[i].sort(key=gratification_sort, reverse=True)
-	cluster_list[i] = tsp_solver(cluster_list[i])
-	time = calculate_time(cluster_list[i])
+	cluster_list_tsp[i] = tsp_solver(cluster_list[i])
+	time = calculate_time(cluster_list_tsp[i])
 	while(time>half_day_time):
 			del cluster_list[i][-1]			#removing the last element to fit the time inside half a day
-			time = calculate_time(cluster_list[i])
+			cluster_list_tsp[i] = tsp_solver(cluster_list[i])
+			time = calculate_time(cluster_list_tsp[i])
 	
 
-	return cluster_list
+	return cluster_list_tsp
 
 def itenerary_json(cluster_list,form):
 	json_output={}

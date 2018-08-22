@@ -22,4 +22,4 @@ for root, dirs, files in os.walk(os.path.abspath(os.path.join(os.getcwd(), os.pa
                         disttime_object = DistanceTime(source = source_object, dest = dest_object, distance = json_data['dist'], time = json_data['time'])
                         disttime_object.save()
                     except:
-                        print json_data['source'], json_data['dest'], "<<<<<<<<"
+                        pass

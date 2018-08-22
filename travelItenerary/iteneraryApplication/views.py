@@ -101,6 +101,7 @@ def add_images_rating(given_plan):
 def am_pm(value):
     hr = int(value)
     mn = int((value*60) % 60)
+    mn = mn
     if hr > 12:
         if mn < 10: return str(hr-12) + " : 0" + str(mn) + " pm"
         else: return str(hr-12) + " : " + str(mn) + " pm"
@@ -126,6 +127,33 @@ def correct_time_format(given_plan):
             place['time_to_show'] = get_time_string(float(place['time']), float(time_spent))
     return given_plan
 
+def get_no_ratings(given_plan):
+    for day in given_plan['tour']:
+        for place in day:
+            n_ratings = PointOfInterest.objects.get(POI_id = place['place_id']).no_people_who_rated
+            place['no_of_ratings'] = n_ratings
+    return given_plan
+
+def get_timetravel(given_plan):
+    for day in given_plan['tour']:
+        first = True
+        pre_id = ""
+        for place in day:
+            if first == True:
+                first = False
+                place['travel_time'] = -1
+                place['travel_dist'] = -1
+                pre_id = place['place_id']
+                continue
+            source = PointOfInterest.objects.get(POI_id = pre_id)
+            dest = PointOfInterest.objects.get(POI_id = place['place_id'])
+            obj = DistanceTime.objects.get(source = source, dest = dest)
+            place['travel_dist'] = float(obj.distance) /1000.0
+            place['travel_time'] = obj.time
+            pre_id = place['place_id']
+    return given_plan
+
+
 
 def itenerary_form(request): 
     form = IteneraryForm(
@@ -145,7 +173,7 @@ def itenerary_form(request):
             context['end_date'] = form.cleaned_data.get("end_date")
             context['type_tags'] = form.cleaned_data.get("type_tags")
             global plan
-            plan = correct_time_format(add_images_rating(json.loads(generate_itenerary(context))))
+            plan = get_timetravel(get_no_ratings(correct_time_format(add_images_rating(json.loads(generate_itenerary(context))))))
             return HttpResponseRedirect('/iteneraryApplication/show_plan/');
     
         # return render(request, 'templates/index2.html', {'form': itene})
