@@ -4,11 +4,11 @@ from time import sleep
 import json
 
 api_key = 'AIzaSyBh9jfDgzqM654rjJIpf89VWOwtneaB-6g'
-datadir = './data'
+from newdatadir import datadir
 
 def get_api_key():
     global api_key
-    sleep(0.4)
+    sleep(0.0006)
     return api_key
 
 
@@ -39,24 +39,26 @@ def get_distances_for_city(cityname):
     with open('{}/{}/dist.json'.format(datadir, cityname), 'w+') as distfile:
         for site1 in siteslist:
             for site2 in siteslist:
-                placeid1 = site1['place_id']
-                placeid2 = site2['place_id']
-                if placeid1 != placeid2:
-                    print site1['place_id'] , site2['place_id']
-                    time, dist = get_distance((site1['location']['lat'],site1['location']['lng']),
-                                (site2['location']['lat'],site2['location']['lng']))
+                with open(u'{}/{}/sites/{}/info.json'.format(datadir,city,site1['name']),'r') as f1:
+                    info1 =json.load(f1)
+                with open(u'{}/{}/sites/{}/info.json'.format(datadir,city,site2['name']),'r') as f2:
+                    info2 =json.load(f2)
+
+                if info1['place_id'] != info2['place_id']:
+                    print site1['name'] , site2['name']
+                   
+                    time, dist = get_distance((info1['lat'], info1['lng']) , (info2['lat'], info2['lng']))
                     
                     distfile.write(json.dumps({
-                       'source' : site1['place_id'],
-                       'dest'   : site2['place_id'],
+                       'source' : info1['place_id'],
+                       'dest'   : info2['place_id'],
                        'time'   : time,
                        'dist'   : dist
                     })+'\n')
                 
 
 
-#ignore seoul ; google maps not available here
 from citylist import cities
-for city in cities:
+for city in cities[11:]:
     print city
     get_distances_for_city(city)

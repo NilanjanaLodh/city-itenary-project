@@ -46,6 +46,9 @@ def ensure_site_dir_exists(city,siteName):
         os.makedirs(siteDir)
     return siteDir
 
+def site_already_fetched(city,siteName):
+    return os.path.exists('{}/{}/sites/{}/avg_time'.format(datadir,city,siteName))
+
 
 
 for city in cities:
@@ -54,10 +57,11 @@ for city in cities:
     siteslist = json.load(sitesfile)
     for site in siteslist:
         print(site['name']) 
-        sleep(1)
-        avg_time = search_on_tripadvisor(site['name'] + ' ' + city+ ' attraction tripadvisor')
-        siteDir = ensure_site_dir_exists(city, site['name'])
-        with open('{}/avg_time'.format(siteDir), 'w+') as f:
-            f.write(str(avg_time))
+        sleep(0.5)
+        if not site_already_fetched(city,site['name']):
+            avg_time = search_on_tripadvisor(site['name'] + ' ' + city+ ' attraction tripadvisor')
+            siteDir = ensure_site_dir_exists(city, site['name'])
+            with open('{}/avg_time'.format(siteDir), 'w+') as f:
+                f.write(str(avg_time))
 
 driver.quit()
