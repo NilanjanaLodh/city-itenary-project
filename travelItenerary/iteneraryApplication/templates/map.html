@@ -259,10 +259,11 @@
       max-width: none;
     }
   </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
+
 <input type="hidden" id="plan" name="variable" value="{{ plan }}" readonly>
 <input type="hidden" id="start_date" name="variable" value="{{ start_date }}" readonly>
+<input type="hidden" id="city" name="variable" value="{{ city }}" readonly>
 
 <body class="resultspage edit-enabled normal" style="position: relative; min-height: 100%; top: 0px;">
   
@@ -293,17 +294,6 @@
   </nav>
   
   
-  
-  
-  <script>
-    (function() {
-      console.log('top function');
-      curr_daynum = 0;
-      plan = JSON.parse(document.getElementById('plan').value);
-      start_date = new Date(document.getElementById('start_date').value);
-    }());
-  </script>
-  
   <div id="pageWrapper" class="page-wrapper ">
     
     <div class="page-content  clear plan-header-hidden" id="pageContent">
@@ -320,41 +310,11 @@
                 <div class="month">Days</div>
               </div>
               
-              
-              
             </div>
           </div>
           <script>
             // function to change the active date
-            (function() {
-              
-              console.log('iife');
-              
-              let dayListElem = $('#dayList');
-              dayListElem.append('<div class="day-box in-plan active"><div class="day text-link">' + 1 + '</div></div>');
-              for (let i = 2; i <= plan.length; i++) {
-                dayListElem.append('<div class="day-box in-plan"><div class="day text-link">' + i + '</div></div>');
-              }
-              dayListElem.append('<div class="day-box in-plan"><div class="day text-link">All</div></div>');
-              
-              $('.day-box.in-plan').on('click', function() { // internally will iterate and add listener to each li
-                let clickedElem = $(this);
-                clickedElem.parent().find('.active').removeClass('active'); // go to parent and then find li
-                clickedElem.addClass('active');
-                if(clickedElem.attr('id')==='allTab'){
-                  curr_daynum = -1;
-                  
-                }                            
-                else{
-                  curr_daynum = parseInt(clickedElem.text()) - 1;
-                  calculateAndDisplayRoute();
-                  displayMapLegend();
-                  displayDate();
-                }
-                
-                
-              });
-            })();
+            
           </script>
           <!-- /Dont mess -->
           
@@ -381,17 +341,6 @@
                   </div>
                 </div>
               </div>
-              <script>
-                function displayDate(){
-                  console.log(curr_daynum);
-                  let curr_date = new Date(start_date);
-                  curr_date.setDate(curr_date.getDate() + curr_daynum);
-                  let arr = curr_date.toString().split(' ');
-                  $('.mon').text(arr[1]);
-                  $('.date').text(arr[2]);
-                  $('.dow').text(arr[0]);
-                }
-              </script>
               <!-- /Dont mess -->
               
               
@@ -400,58 +349,23 @@
                 <div id="mapCanvas" class="mapCanvas" style="position: relative; overflow: hidden;"></div>
                 <div class="map-legend">
                   <ol class="legend-day-list">
-                    <li id="stay-1-2018-08-14" class="legendOption">
-                      <ul id="placeList">
-                        
-                        <!-- <li class="visit-name">
-                          <span>
-                            <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">A</span>
-                            <span class="name">Place 1</span>
-                          </span>
-                          <div class="clear"></div>
-                        </li> -->
-                        
-                        <!-- <li class="hop-duration bg-stripe">
-                          <a class="directions text-link" href="javascript:void(0)" target="_blank"> x mins</a>
-                        </li> -->
-                        
+                    
+                    <li class="legendOption">
+                      <div class="slot-date" style="display:none">Day 1</div>
+                      <ul id="placeList" style="display:none">
                       </ul>
                     </li>
+                    
+                    <li class="legendOption">
+                      <div class="slot-date" style="display:none">Day 1</div>
+                      <ul id="placeList-day-1" style="">
+                      </ul>
+                    </li>
+                    
                   </ol>
                 </div>
                 <div class="clear"></div>
               </div>
-              <script>
-                function displayMapLegend() {
-                  let route = plan[curr_daynum];
-                  let placeListElem = $('#placeList');
-                  placeListElem.empty();
-                  for (let i = 0; i < route.length; i++) {
-                    let placeHtml =
-                    `<li class="visit-name">
-                      <span>
-                        <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">
-                          ${String.fromCharCode('A'.charCodeAt(0) + i)}
-                        </span>
-                        <span class="name">${route[i].name}</span>
-                      </span>
-                      <div class="clear"></div>
-                    </li>`;
-                    let travelHtml = "";
-                    if (i != route.length - 1){
-                      travelHtml =
-                      `<li class="hop-duration bg-stripe">
-                        <a class="directions text-link" href="javascript:void(0)" target="_blank">
-                          ${getTravelTime(curr_daynum,i)}</a>
-                      </li>`;
-                    }
-                    placeListElem.append(placeHtml + travelHtml);
-                  }
-                }
-                function getTravelTime(daynum , sitenum){
-                  return 'Travel for '+  plan[daynum][sitenum+1]['travel_time'] + ' mins';
-                }
-              </script>
               <!-- /Dont mess -->
             </div>
           </div>
@@ -463,67 +377,208 @@
   </div>
   
   
-  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh9jfDgzqM654rjJIpf89VWOwtneaB-6g"></script>
   <script>
+    
     var directionsService;
     var directionsDisplay;
-    
-    console.log(plan);
     var map;
     
-    function initMap() {
-      google.maps.event.addDomListener(window, 'load' , function(){
-        console.log('initMap');
-        directionsService = new google.maps.DirectionsService;
-        directionsDisplay = new google.maps.DirectionsRenderer;
-        map = new google.maps.Map(document.getElementById('mapCanvas'), {
-          center: {
-            lat: 25.2048493,
-            lng: 55.2707828
-          }, //dubai
-          zoom: 9
-        });
-        console.log(map);
-        directionsDisplay.setMap(map);
-        calculateAndDisplayRoute();
-        displayMapLegend();
-        displayDate();
-      });
+    document.addEventListener("DOMContentLoaded", function(event) {
+      curr_daynum = 0;
+      plan = JSON.parse(document.getElementById('plan').value);
+      start_date = new Date(document.getElementById('start_date').value);
+      city = document.getElementById('city').value;
+      numDays = plan.length;
       
-    }
+      
+      
+      createLeftPanel();
+      setUpReactToTabClick();
+      addMapLegendElements();
+      
+      initMap();
+    });
     
-    function calculateAndDisplayRoute() {
-      let route = plan[curr_daynum];
-      console.log('calculateAndDisplayRoute');
-      var waypoints = [];
-      for (var i = 1; i < route.length - 1; i++) {
-        waypoints.push({
-          location: new google.maps.LatLng(route[i]['lat'], route[i]['lng']),
-          stopover: true
-        });
-      }
-      directionsService.route({
-        origin: new google.maps.LatLng(route[0]['lat'], route[0]['lng']),
-        destination: new google.maps.LatLng(route[route.length - 1]['lat'], route[route.length - 1]['lng']),
-        travelMode: 'DRIVING',
-        waypoints: waypoints
-      }, function(response, status) {
-        if (status === 'OK') {
-          console.log('response returned');
-          console.log(response);
-          directionsDisplay.setDirections(response);
-          console.log('set directions');
-        } else {
-          window.alert('Directions request failed due to ' + status);
+    function addMapLegendElements(){
+      /**
+      <ol class="legend-day-list">
+        
+        <li class="legendOption">
+          <div class="slot-date" style="display:none">Day 1</div>
+          <ul id="placeList" style="display:none">
+          </ul>
+        </li>
+        **/
+        let outerLegendDiv = $('.legend-day-list');
+        for(let daynum=0;daynum<numDays;daynum++){ 
+          let route = plan[daynum];
+          
+          innerDayPlanHTML = "";
+          for (let i = 0; i < route.length; i++) {
+            let placeHtml =
+            `<li class="visit-name">
+              <span>
+                <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">
+                  ${String.fromCharCode('A'.charCodeAt(0) + i)}
+                </span>
+                <span class="name">${route[i].name}</span>
+              </span>
+              <div class="clear"></div>
+            </li>`;
+            let travelHtml = "";
+            if (i != route.length - 1){
+              travelHtml =
+              `<li class="hop-duration bg-stripe">
+                <a class="directions text-link" href="javascript:void(0)" target="_blank">
+                  ${getTravelTime(daynum,i)}</a>
+                </li>`;
+              }
+              
+              innerDayPlanHTML += placeHtml + travelHtml;
+            }
+            
+            outerDayPlanHTML = `
+            <li class="legendOption">
+              <div id="outer-div-day-${daynum}" class="slot-date" style="display:none">Day ${daynum+1}</div>
+              <ul id="placeList${daynum}" style="display:none ">
+                ${innerDayPlanHTML}
+              </ul>
+            </li>
+            `;
+            outerLegendDiv.append(outerDayPlanHTML);
+            
+          }
         }
-      });
-    }
+        
+        
+        
+        function createLeftPanel(){
+          let dayListElem = $('#dayList');
+          dayListElem.append('<div class="day-box in-plan active"><div class="day text-link">' + 1 + '</div></div>');
+          
+          for (let i = 2; i <= plan.length; i++) {
+            dayListElem.append('<div class="day-box in-plan"><div class="day text-link">' + i + '</div></div>');
+          }
+          dayListElem.append('<div class="day-box in-plan" id="allTab"><div class="day text-link">All</div></div>');    
+        }
+        
+        
+        function setUpReactToTabClick(){
+          $('.day-box.in-plan').on('click', function() { // internally will iterate and add listener to each li
+            let clickedElem = $(this);
+            clickedElem.parent().find('.active').removeClass('active'); // go to parent and then find li
+            clickedElem.addClass('active');
+            if(clickedElem.attr('id')=='allTab'){
+              console.log('YOOOO');
+              curr_daynum = -1;
+              displayMapLegendAll();
+            }                            
+            else{
+              curr_daynum = parseInt(clickedElem.text()) - 1;
+              displayRoute(curr_daynum);
+              displayMapLegend(curr_daynum);
+              displayDate(curr_daynum);
+            }              
+          });
+        }
+        
+        function initMap() {     
+          console.log('initMap');
+          directionsService = new google.maps.DirectionsService;
+          directionsDisplay = new google.maps.DirectionsRenderer;
+          map = new google.maps.Map(document.getElementById('mapCanvas'), {
+            center: {
+              lat: 0,
+              lng: 0
+            }, 
+            zoom: 9
+          });
+          console.log(map);
+          directionsDisplay.setMap(map);
+          
+          displayRoute(0);
+          displayMapLegend(0);
+          displayDate(0);     
+        }
+        
+        function displayRoute(daynum) {
+          let route = plan[daynum];
+          console.log('displayRoute');
+          var waypoints = [];
+          for (var i = 1; i < route.length - 1; i++) {
+            waypoints.push({
+              location: new google.maps.LatLng(route[i]['lat'], route[i]['lng']),
+              stopover: true
+            });
+          }
+          directionsService.route({
+            origin: new google.maps.LatLng(route[0]['lat'], route[0]['lng']),
+            destination: new google.maps.LatLng(route[route.length - 1]['lat'], route[route.length - 1]['lng']),
+            travelMode: 'DRIVING',
+            waypoints: waypoints
+          }, function(response, status) {
+            if (status === 'OK') {
+              console.log('response returned');
+              console.log(response);
+              directionsDisplay.setDirections(response);
+              console.log('set directions');
+            } else {
+              window.alert('Directions request failed due to ' + status);
+            }
+          });
+        }
+        
+        function displayAllPlacesOnMap(){
+          directionsDisplay.setDirections({routes: []});
+          var geocoder = new google.maps.Geocoder();
+          geocoder.geocode({'address': city}, function(results, status) {
+            if (status === 'OK') {
+              map.setCenter(results[0].geometry.location);
+            } else {
+              alert('Geocode was not successful for the following reason: ' + status);
+            }
+          });
+        }
+        
+        
+        function displayMapLegend(daynum) {
+          for(let i=0;i<numDays;i++){
+            if(i!=daynum){
+              $(`#outer-div-day-${i}`).attr('style','display:none');
+              $(`#placeList${i}`).attr('style','display:none');
+            }              
+          }
+          $(`#outer-div-day-${daynum}`).attr('style','');
+          $(`#placeList${daynum}`).attr('style','');
+        }
+        
+        function displayMapLegendAll(){
+          for(let i=0;i<numDays;i++){
+            $(`#outer-div-day-${i}`).attr('style','');
+            $(`#placeList${i}`).attr('style','');
+          }
+        }
+        
+        
+        function getTravelTime(daynum , sitenum){
+          return 'Travel for '+  plan[daynum][sitenum+1]['travel_time'] + ' mins';
+        }
+        function displayDate(){
+          console.log(curr_daynum);
+          let curr_date = new Date(start_date);
+          curr_date.setDate(curr_date.getDate() + curr_daynum);
+          let arr = curr_date.toString().split(' ');
+          $('.mon').text(arr[1]);
+          $('.date').text(arr[2]);
+          $('.dow').text(arr[0]);
+        }
+      </script>
+      
+      
+      
+    </body>
     
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh9jfDgzqM654rjJIpf89VWOwtneaB-6g&callback=initMap" async defer></script>
-  
-  
-  
-</body>
-
-</html>
+    </html>
+    
