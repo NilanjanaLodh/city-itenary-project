@@ -301,7 +301,6 @@
       curr_daynum = 0;
       plan = JSON.parse(document.getElementById('plan').value);
       start_date = new Date(document.getElementById('start_date').value);
-      // console.log('YO' + start_date);
     }());
   </script>
   
@@ -316,13 +315,11 @@
           <!-- Dont mess -->
           <div id="itineraryLeftTimelinePane" class="itinerary-left-timeline-pane  col-1 maps" style="">
             <div id="dayList" class="day-boxes">
+              
               <div class="day-box in-plan">
                 <div class="month">Days</div>
               </div>
               
-              <!-- <div class="day-box in-plan active">
-                <div class="day text-link">1</div>
-              </div> -->
               
               
             </div>
@@ -338,15 +335,24 @@
               for (let i = 2; i <= plan.length; i++) {
                 dayListElem.append('<div class="day-box in-plan"><div class="day text-link">' + i + '</div></div>');
               }
+              dayListElem.append('<div class="day-box in-plan"><div class="day text-link">All</div></div>');
               
               $('.day-box.in-plan').on('click', function() { // internally will iterate and add listener to each li
                 let clickedElem = $(this);
                 clickedElem.parent().find('.active').removeClass('active'); // go to parent and then find li
                 clickedElem.addClass('active');
-                curr_daynum = parseInt(clickedElem.text()) - 1;
-                calculateAndDisplayRoute();
-                displayMapLegend();
-                displayDate();
+                if(clickedElem.attr('id')==='allTab'){
+                  curr_daynum = -1;
+                  
+                }                            
+                else{
+                  curr_daynum = parseInt(clickedElem.text()) - 1;
+                  calculateAndDisplayRoute();
+                  displayMapLegend();
+                  displayDate();
+                }
+                
+                
               });
             })();
           </script>
@@ -435,11 +441,15 @@
                     if (i != route.length - 1){
                       travelHtml =
                       `<li class="hop-duration bg-stripe">
-                        <a class="directions text-link" href="javascript:void(0)" target="_blank"> x mins</a>
+                        <a class="directions text-link" href="javascript:void(0)" target="_blank">
+                          ${getTravelTime(curr_daynum,i)}</a>
                       </li>`;
                     }
                     placeListElem.append(placeHtml + travelHtml);
                   }
+                }
+                function getTravelTime(daynum , sitenum){
+                  return 'Travel for '+  plan[daynum][sitenum+1]['travel_time'] + ' mins';
                 }
               </script>
               <!-- /Dont mess -->
