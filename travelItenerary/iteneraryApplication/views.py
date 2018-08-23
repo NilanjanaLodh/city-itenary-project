@@ -197,3 +197,12 @@ def show_map(request):
         'start_date' : plan['start_date'], #mm/dd/yy
         'city' : plan['city']
     });
+
+from LAplan import laPlan
+def show_map_test(request):
+    return render(request , 'map.html' , {
+        'plan' : json.dumps(laPlan['tour']),
+        'start_date' : laPlan['start_date'], #mm/dd/yy
+        'city' : laPlan['city']
+    });
+
