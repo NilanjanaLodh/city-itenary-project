@@ -384,6 +384,7 @@
     var directionsService;
     var directionsDisplay;
     var map;
+    var markers = [];
     
     document.addEventListener("DOMContentLoaded", function(event) {
       curr_daynum = 0;
@@ -471,9 +472,10 @@
             clickedElem.parent().find('.active').removeClass('active'); // go to parent and then find li
             clickedElem.addClass('active');
             if(clickedElem.attr('id')=='allTab'){
-              console.log('YOOOO');
               curr_daynum = -1;
               displayMapLegendAll();
+              displayAllPlacesOnMap();
+              displayDateRange();
             }                            
             else{
               curr_daynum = parseInt(clickedElem.text()) - 1;
@@ -533,13 +535,37 @@
         function displayAllPlacesOnMap(){
           directionsDisplay.setDirections({routes: []});
           var geocoder = new google.maps.Geocoder();
+          
           geocoder.geocode({'address': city}, function(results, status) {
             if (status === 'OK') {
               map.setCenter(results[0].geometry.location);
+              console.log(results[0].geometry.location);
             } else {
               alert('Geocode was not successful for the following reason: ' + status);
             }
           });
+          
+          if(markers)
+          for(let daynum = 0;daynum<numDays;daynum ++){
+            let route = plan[daynum];
+            for(let i=0;i<route.length;i++){
+              markers.concat(new google.maps.Marker({
+                position : {lat: route[i].lat, lng:route[i].lng},
+                map : map,
+                title : 'h'
+              }));
+              console.log(route[i].lat + ' ' + route[i].lng);
+            }           
+          }
+          var newBoundary = new google.maps.LatLngBounds();
+          
+          for(index in markers){
+            var position = markers[index].position;
+            newBoundary.extend(position);
+          }
+          
+          map.fitBounds(newBoundary);
+          
         }
         
         
@@ -565,14 +591,22 @@
         function getTravelTime(daynum , sitenum){
           return 'Travel for '+  plan[daynum][sitenum+1]['travel_time'] + ' mins';
         }
-        function displayDate(){
-          console.log(curr_daynum);
+        function displayDate(daynum){
+          $('.stay-area > .stayName').text(city);
           let curr_date = new Date(start_date);
-          curr_date.setDate(curr_date.getDate() + curr_daynum);
+          curr_date.setDate(curr_date.getDate() + daynum);
           let arr = curr_date.toString().split(' ');
           $('.mon').text(arr[1]);
           $('.date').text(arr[2]);
           $('.dow').text(arr[0]);
+        }
+
+        function displayDateRange(){
+          $('.mon').text('');
+          $('.date').text('');
+          $('.dow').text('');
+          $('.stay-area > .stayName').text(`${city} : Full itenerary`);
+          
         }
       </script>
       
