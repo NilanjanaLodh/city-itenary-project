@@ -3,12 +3,25 @@ from sklearn.cluster import KMeans
 import numpy as np
 from tsp_solver import tsp_solver, calculate_time, calculate_time_upto
 from .gratification import gratification_score
-import json
+import json, datetime
 from django.core.serializers.json import DjangoJSONEncoder
+import math
+from .get_POI import get_POI_object
 
 half_day_time = 12
 
 grat_score_dict = dict()
+
+def generate_POI_dict(POI):
+	POI_json = dict()
+	POI_json['lat'] = float(POI.latitude)
+	POI_json['lng'] = float(POI.longitude)
+	POI_json['name'] = POI.POI_name
+	POI_json['place_id'] = POI.POI_id
+	POI_json['rating'] = float(POI.rating)
+	POI_json['description'] = POI.description
+	POI_json['cost'] = 10
+	return POI_json
 
 def generate_gratification_score_all(POI_list,form):
 	for POI in POI_list:
@@ -16,6 +29,9 @@ def generate_gratification_score_all(POI_list,form):
 
 def gratification_sort(POI):
 	return grat_score_dict[POI]
+
+def tour_sort_key(POI):
+	return float(POI['time'])
 
 def generate_itenerary(form):
 	city = form['city']
@@ -84,15 +100,8 @@ def itenerary_json(cluster_list,form):
 	for path in cluster_list:
 		path_json = []
 		for POI in path:
-			POI_json = dict()
-			POI_json['lat'] = POI.latitude
-			POI_json['lng'] = POI.longitude
-			POI_json['name'] = POI.POI_name
-			POI_json['place_id'] = POI.POI_id
-			POI_json['rating'] = POI.rating
-			POI_json['description'] = POI.description
+			POI_json = generate_POI_dict(POI)
 			POI_json['time'] = calculate_time_upto(POI,path)
-			POI_json['cost'] = 10
 			path_json.append(POI_json)
 		tour.append(path_json)
 		# print(path)
@@ -103,3 +112,99 @@ def itenerary_json(cluster_list,form):
 	json_output['tour'] = tour
 	# print(json_output)
 	return json.dumps(json_output,cls=DjangoJSONEncoder)
+
+def time_difference(start_time,end_time):
+	output=0;
+	output+=(end_time.hour - start_time.hour)
+	output+=(end_time.minute - start_time.minute)/60.0
+	return output
+
+def POI_time(time):
+	output = 0;
+	output+=(time.hour - 9.0)
+	output+=time.minute/60.0
+	return output
+
+
+def modify_itenerary(tour,event_name,event_start,event_end):
+	start_day = datetime.datetime.strptime(tour['start_date'], "%Y-%m-%d").date()
+	# print tour
+
+	POI_is_present = False
+	for i in range(0, len(tour['tour'])):
+		path = tour['tour'][i]
+		for POI in path:
+			if POI['name']==event_name:
+				POI_is_present = True
+				start_time = event_start.split("T")[1]
+				start_time = start_time.split("+")[0]
+				start_time = datetime.datetime.strptime(start_time, '%H:%M:%S').time()
+				date_travel = event_start.split("T")[0]
+				date_travel = datetime.datetime.strptime(date_travel, "%Y-%m-%d").date()
+				end_time = event_end.split("T")[1]
+				end_time = end_time.split("+")[0]
+				end_time = datetime.datetime.strptime(end_time, '%H:%M:%S').time()
+				time_diff = time_difference(start_time,end_time)
+				# print time_diff
+				POI['time_spent'] = time_diff
+				# print POI['time']
+				POI['time'] = float(start_time.hour + start_time.minute/60.0 - 9.0)
+				# print POI['time']
+
+				if (date_travel - start_day).days != i:
+					path.remove(POI)
+					tour['tour'][(date_travel - start_day).days].append(POI)
+
+	if not POI_is_present:
+		POI_object = get_POI_object(event_name, tour['city'])
+		POI_obj_json = generate_POI_dict(POI_object)
+		print POI_object
+		start_time = event_start.split("T")[1]
+		start_time = start_time.split("+")[0]
+		start_time = datetime.datetime.strptime(start_time, '%H:%M:%S').time()
+		date_travel = event_start.split("T")[0]
+		date_travel = datetime.datetime.strptime(date_travel, "%Y-%m-%d").date()
+		end_time = event_end.split("T")[1]
+		end_time = end_time.split("+")[0]
+		end_time = datetime.datetime.strptime(end_time, '%H:%M:%S').time()
+		time_diff = time_difference(start_time,end_time)
+		# print time_diff
+		POI_obj_json['time_spent'] = time_diff
+		# print POI['time']
+		POI_obj_json['time'] = float(start_time.hour + start_time.minute/60.0 - 9.0)
+		# print POI['time']
+		tour['tour'][(date_travel - start_day).days].append(POI_obj_json)
+
+	for path in tour['tour']:
+		path.sort(key=tour_sort_key)
+
+	for path in tour['tour']:
+		for i in range(0, len(path)):
+			if i==0:
+				path[i]['travel_time'] = 0;
+			else:
+				timeDiff = float(path[i]['time']) - float(path[i-1]['time']) - path[i-1]['time_spent']
+				path[i]['travel_time'] = math.floor(timeDiff*60)
+
+	return tour
+
+def check_itenerary_consistency(tour,event_name,event_start,event_end):
+	start_day = datetime.datetime.strptime(tour['start_date'], "%Y-%m-%d").date()
+	# POI = get_POI_object(event_name,tour['city'])
+
+	for path_index in range(0,len(tour['tour'])):
+		path = tour['tour'][path_index]
+		for POI_index in range(0,len(path)):
+			date_travel = event_start.split("T")[0]
+			date_travel = datetime.datetime.strptime(date_travel, "%Y-%m-%d").date()
+			if((date_travel - start_day).days != path_index)
+				break;
+			start_time_event = event_start.split("T")[1]
+			start_time_event = start_time_event.split("+")[0]
+			start_time_event = datetime.datetime.strptime(start_time_event, '%H:%M:%S').time()
+			end_time_event= event_end.split("T")[1]
+			end_time_event = end_time_event.split("+")[0]
+			end_time_event = datetime.datetime.strptime(end_time_event, '%H:%M:%S').time()
+
+
+

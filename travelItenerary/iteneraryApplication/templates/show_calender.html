@@ -1,0 +1,37 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link href="{% static 'css/fullcalendar.css' %}" rel='stylesheet' />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.css" rel='stylesheet' />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="{% static 'js/fullcalendar.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar-scheduler/1.9.4/scheduler.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Dynamically add/remove items from list - JavaScript</title>
+</head>
+<body>
+    {% csrf_token %}
+    <input type="hidden" id="plan" name="variable" value="{{ plan }}" readonly>
+    <div id='calendar'></div>
+    <form autocomplete="off">
+        <input type="text" name="add_POI" id="addPOI" placeholder="Add a Point of Interest" list="results" autocomplete="off">
+        <datalist id="results">
+        </datalist>
+        <button id="add_button" value="add" name="addButton">Ad POI</button>
+    </form>
+
+
+    
+   
+   
+
+    <script type="text/javascript" src="{% static 'js/calender_custom_js.js' %}"></script>
+
+    </script>
+</body>
+</html>

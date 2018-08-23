@@ -1,0 +1,43 @@
+.list_div {
+  display: inline-block;
+  margin: 1em;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.list-group{
+  list-style-type: none;
+}
+
+.list-group-item {
+  width: 162px;
+  text-align: center;
+  cursor: move;
+  color: black;
+  background-color: #ccc;
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 10px;
+  border: 2px solid #666666;
+}
+
+.list-group-item.selected {
+    background-color:GoldenRod
+}
+
+.list-group-item.dragElem {
+  opacity: 0.4;
+}
+.list-group-item.over {
+  //border: 2px dashed #000;
+  border-top: 2px solid blue;
+}
+
