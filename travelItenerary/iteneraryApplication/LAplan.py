@@ -1,4 +1,4 @@
-luPlan = {
+laPlan = {
     'city': 'Los Angeles', 
     'tour': 
     [
@@ -235,7 +235,7 @@ luPlan = {
     'no_days': 2
 }
 
-laPlan = {
+luPlan = {
 	'city':  'London', 'city_description': '',  'tour': [
 		[{
 			'travel_time': -1,

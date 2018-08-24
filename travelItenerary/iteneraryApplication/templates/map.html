@@ -506,6 +506,7 @@
         }
         
         function displayRoute(daynum) {
+          hideMarkers();
           let route = plan[daynum];
           console.log('displayRoute');
           var waypoints = [];
@@ -534,8 +535,16 @@
         
         function displayAllPlacesOnMap(){
           directionsDisplay.setDirections({routes: []});
-          var geocoder = new google.maps.Geocoder();
           
+          if(markers.length == 0){
+            createMarkers();
+          }
+          
+          showMarkers();          
+        }
+        
+        function centerMapOnCity(){
+          let geocoder = new google.maps.Geocoder();
           geocoder.geocode({'address': city}, function(results, status) {
             if (status === 'OK') {
               map.setCenter(results[0].geometry.location);
@@ -544,30 +553,46 @@
               alert('Geocode was not successful for the following reason: ' + status);
             }
           });
-          
-          if(markers)
-          for(let daynum = 0;daynum<numDays;daynum ++){
+        }
+        
+        function createMarkers(){
+          let colors = [
+            '#B2FF33', 
+            '#FF9933',
+            '#F00',
+            '#0F0',
+            '#00F',
+            '#B233FF',                       
+            '#33CAFF'
+          ];
+          for(let daynum = 0;daynum<numDays;daynum ++){            
             let route = plan[daynum];
             for(let i=0;i<route.length;i++){
-              markers.concat(new google.maps.Marker({
+              markers = markers.concat(new google.maps.Marker({
                 position : {lat: route[i].lat, lng:route[i].lng},
-                map : map,
-                title : 'h'
+                label :{text: 1+daynum +'', color: "black" , fontWeight: 'bold', fontSize :'16px' } ,
+                icon : pinSymbol(colors[daynum])
               }));
-              console.log(route[i].lat + ' ' + route[i].lng);
-            }           
+            }
           }
-          var newBoundary = new google.maps.LatLngBounds();
+        }
+        
+        function showMarkers(){
+          let newBoundary = new google.maps.LatLngBounds();
           
           for(index in markers){
-            var position = markers[index].position;
-            newBoundary.extend(position);
+            markers[index].setMap(map);
+            newBoundary.extend(markers[index].position);
           }
           
           map.fitBounds(newBoundary);
-          
         }
         
+        function hideMarkers(){
+          for(index in markers){
+            markers[index].setMap(null);
+          }
+        }
         
         function displayMapLegend(daynum) {
           for(let i=0;i<numDays;i++){
@@ -600,7 +625,7 @@
           $('.date').text(arr[2]);
           $('.dow').text(arr[0]);
         }
-
+        
         function displayDateRange(){
           $('.mon').text('');
           $('.date').text('');
@@ -608,6 +633,17 @@
           $('.stay-area > .stayName').text(`${city} : Full itenerary`);
           
         }
+        function pinSymbol(color) {
+          return {
+              path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+              fillColor: color,
+              fillOpacity: 1,
+              strokeColor: '#000',
+              strokeWeight: 2,
+              scale: 1,
+              labelOrigin : new google.maps.Point(0, -25)
+         };
+      }
       </script>
       
       
