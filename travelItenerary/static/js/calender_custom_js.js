@@ -62,19 +62,18 @@ function createEventList(plan){
 
 }
 
-function getEventObject(POI,start_date){
+function getEventObject(POI_name,start_date){
     let event_object = {};
     let POI_start_date = new Date(start_date);
     let POI_end_date = new Date(start_date);
     POI_end_date.setHours(POI_start_date.getHours() + 2);
-    event_object['title'] = POI['name'];
-    event_object['start'] = POI_start_date;
-    event_object['end'] = POI_end_date
-    event_object['editable'] = true;
-    event_object['eventDurationEditable'] = true;
-    event_object['eventStartEditable'] = true;
-    event_object['overlap'] = false;
-    event_object['allDay'] = true;
+    event_object.title = POI_name;
+    event_object.start = moment(POI_start_date);
+    event_object.end = moment(POI_end_date);
+    event_object.editable = true;
+    event_object.eventDurationEditable = true;
+    event_object.eventStartEditable = true;
+    event_object.overlap = false;
     return event_object;
 }
     
@@ -164,6 +163,7 @@ $(document).ready(function() {
                             plan = data;
                         },
                         error: function (data) {
+                            alert("conflict found. reverting");
                             revertFunc();
                         }
                     });
@@ -190,6 +190,7 @@ $(document).ready(function() {
                             plan = data;
                         },
                         error: function (data) {
+                            alert("conflict found. reverting");
                             revertFunc();
                         }
                     });
@@ -238,6 +239,7 @@ $(document).ready(function() {
                        $(this).find('h4.modal-title').text(calEvent.title);
                     });
                     let POI = get_POI_from_plan(plan,calEvent.title);
+                    console.log(POI);
                     // console.log(document.querySelector("#img_slide_0"));
                     document.querySelector("#img_slide_0").src = "/static/"+POI['images'][0];
                     document.querySelector("#img_slide_1").src = "/static/"+POI['images'][1];
@@ -262,45 +264,33 @@ $(document).ready(function() {
                     alert("The place already exists in your itenerary");
 
                 else{
+                    let event_to_add = getEventObject(POI_name,plan['start_date']);
+                    console.log()
                     $.ajax({
-                        type: "GET",
-                        url: "/iteneraryApplication/ajax/get_POI/",
+                        type: 'POST',
+                        url: '/iteneraryApplication/ajax/update_tour/',
                         data: {
-                          'POI_name': POI_name,
-                          'POI_city': plan['city']
+                            'plan': JSON.stringify(plan),
+                            'event_end': event_to_add.end.format(),
+                            'event_start': event_to_add.start.format(),
+                            'event_name' : event_to_add.title,
+                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
                         },
-                        success: function(result) {
-                            result = JSON.parse(result);
-                            // console.log(result);
-                            let event_to_add = getEventObject(result,plan['start_date']);
-                            // console.log(event_to_add);
-                            
-                            // console.log(event_list);
-                            $('#calendar').fullCalendar('renderEvent', {
-                                  title: event_to_add['title'],
-                                  start: event_to_add['start'],
-                                  end: event_to_add['end'],
-                                  editable: true,
-                                  eventDurationEditable: true,
-                                  eventStartEditable: true,
-                                  overlap: false,
-                                }, stick=true);
-
-                            // var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                            //   var date = moment(dateStr);
-
-                            //   if (date.isValid()) {
-                            //     $('#calendar').fullCalendar('renderEvent', {
-                            //       title: 'dynamic event',
-                            //       start: date,
-                            //       allDay: true
-                            //     });
-                            // }
+                        dataType: 'json',
+                        
+                        success: function (data) {
+                            console.log(event_to_add['end'])
+                            event_list.push(event_to_add);
+                            $('#calendar').fullCalendar('renderEvent', event_to_add, stick=true);
+                            console.log(event_list);
+                            plan = data;
                         },
-                        error: function(result) {
-                          alert('error');
+                        error: function (data) {
+                            alert("conflict found. reverting");
+                            // revertFunc();
                         }
                     });
+                    
                 }
             });
 

@@ -21,6 +21,7 @@ def generate_POI_dict(POI):
 	POI_json['rating'] = float(POI.rating)
 	POI_json['description'] = POI.description
 	POI_json['cost'] = 10
+	
 	return POI_json
 
 def generate_gratification_score_all(POI_list,form):
@@ -129,14 +130,14 @@ def POI_time(time):
 def modify_itenerary(tour,event_name,event_start,event_end):
 	start_day = datetime.datetime.strptime(tour['start_date'], "%Y-%m-%d").date()
 	# print tour
-
+	if not check_itenerary_consistency(tour,event_name,event_start,event_end):
+		return -1
 	POI_is_present = False
 	for i in range(0, len(tour['tour'])):
 		path = tour['tour'][i]
 		for POI in path:
 			if POI['name']==event_name:
-				if not check_itenerary_consistency(tour,event_name,event_start,event_end):
-					return -1
+				
 				POI_is_present = True
 				start_time = event_start.split("T")[1]
 				start_time = start_time.split("+")[0]
@@ -158,6 +159,7 @@ def modify_itenerary(tour,event_name,event_start,event_end):
 					tour['tour'][(date_travel - start_day).days].append(POI)
 
 	if not POI_is_present:
+		print event_name
 		POI_object = get_POI_object(event_name, tour['city'])
 		POI_obj_json = generate_POI_dict(POI_object)
 		print POI_object
