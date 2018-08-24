@@ -386,7 +386,7 @@
     var map;
     var markers = [];
     var colors = [
-      '#B2FF33', 
+      '#98D54F',      
       '#8333FF',
       '#C473AB',
       '#FF9933',
@@ -396,7 +396,8 @@
       '#B233FF',                       
       '#33CAFF',
       '#9DDAD3',
-      '#E859BD'
+      '#E859BD',
+      '#B2FF33'
     ];
     var defaultLegendcolor = 'rgb(250, 140, 0)';
 
@@ -601,6 +602,7 @@
         }
         
         function displayMapLegend(daynum) {
+          $(`.map-marker-circle.mapMarkerDay${daynum}`).attr('style',`background-color:${defaultLegendcolor}`);
           for(let i=0;i<numDays;i++){
             if(i!=daynum){
               $(`#outer-div-day-${i}`).attr('style','display:none');
@@ -615,6 +617,7 @@
           for(let i=0;i<numDays;i++){
             $(`#outer-div-day-${i}`).attr('style','');
             $(`#placeList${i}`).attr('style','');
+            $(`.map-marker-circle.mapMarkerDay${i}`).attr('style',`background-color:${colors[i]}`);
           }
         }
         
