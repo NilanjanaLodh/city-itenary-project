@@ -385,7 +385,21 @@
     var directionsDisplay;
     var map;
     var markers = [];
-    
+    var colors = [
+      '#B2FF33', 
+      '#8333FF',
+      '#C473AB',
+      '#FF9933',
+      '#F00',
+      '#0F0',
+      '#00F',
+      '#B233FF',                       
+      '#33CAFF',
+      '#9DDAD3',
+      '#E859BD'
+    ];
+    var defaultLegendcolor = 'rgb(250, 140, 0)';
+
     document.addEventListener("DOMContentLoaded", function(event) {
       curr_daynum = 0;
       plan = JSON.parse(document.getElementById('plan').value);
@@ -421,7 +435,7 @@
             let placeHtml =
             `<li class="visit-name">
               <span>
-                <span class="map-marker-circle notranslate" style="background-color: rgb(250, 140, 0);">
+                <span class="map-marker-circle notranslate" style="background-color: ${defaultLegendcolor};">
                   ${String.fromCharCode('A'.charCodeAt(0) + i)}
                 </span>
                 <span class="name">${route[i].name}</span>
@@ -556,15 +570,7 @@
         }
         
         function createMarkers(){
-          let colors = [
-            '#B2FF33', 
-            '#FF9933',
-            '#F00',
-            '#0F0',
-            '#00F',
-            '#B233FF',                       
-            '#33CAFF'
-          ];
+          
           for(let daynum = 0;daynum<numDays;daynum ++){            
             let route = plan[daynum];
             for(let i=0;i<route.length;i++){
