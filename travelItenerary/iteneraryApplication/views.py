@@ -11,6 +11,7 @@ import os, copy
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie
 from get_POI import get_POIs, get_POI_object
+from django.http import Http404
 
 # Create your views here.
 plan = {
@@ -297,6 +298,8 @@ def update_tour(request):
     event_name = request.POST.get('event_name', None)
     # print event_start
     plan = modify_itenerary(plan,event_name,event_start,event_end)
+    if plan == -1:
+        raise Http404("the change in event is not consistent")
     plan = json.dumps(plan)
     # print plan
     return HttpResponse(plan)

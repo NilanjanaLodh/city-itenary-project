@@ -7,6 +7,7 @@ function getMinutes(time){
 }
 
 function eventExists(POI_name, event_list){
+    console.log(event_list);
     for(index in event_list){
         event = event_list[index];
         if(POI_name == event.title)
@@ -15,8 +16,18 @@ function eventExists(POI_name, event_list){
     return false;
 }
 
+function getEvent(event_title, event_list){
+    for(index in event_list){
+        if(event_list[index].title == event_title){
+            // console.log(event_list[0].title);
+            return index;
+        }
+    }
+    return -1;
+}
+
 function createEventList(plan){
-    event_list = [];
+    let event_list = [];
     for(day=0; day<plan['tour'].length; day++){
             for(j=0; j<plan['tour'][day].length; j++){
             let event_object = {};
@@ -39,7 +50,7 @@ function createEventList(plan){
             event_object['title'] = POI['name'];
             event_object['start'] = POI_start_date;
             event_object['end'] = POI_end_date;
-            console.log(visit_time);
+            // console.log(visit_time);
             event_object['editable'] = true;
             event_object['eventDurationEditable'] = true;
             event_object['eventStartEditable'] = true;
@@ -51,7 +62,7 @@ function createEventList(plan){
 
 }
 
-function getEvent(POI,start_date){
+function getEventObject(POI,start_date){
     let event_object = {};
     let POI_start_date = new Date(start_date);
     let POI_end_date = new Date(start_date);
@@ -68,8 +79,8 @@ function getEvent(POI,start_date){
 }
     
 
-function ajaxGetPOI(plan){
-    city = plan['city'];
+function ajaxGetPOIall(plan){
+    let city = plan['city'];
     let list_POI = [];
     $.ajax(
     {
@@ -82,7 +93,7 @@ function ajaxGetPOI(plan){
         dataType: 'json',
                         
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             list_POI = data;
         },
         async: false
@@ -91,11 +102,36 @@ function ajaxGetPOI(plan){
     return list_POI;
 }
 
+function remove_POI_from_plan(plan, event_title){
+    let tour = plan['tour'];
+    for(i in tour){
+        let path = tour[i];
+        for(j in path){
+            let POI = path[j];
+            if(POI['name'] == event_title)
+                path.splice(j,1);
+        }
+    }
+    return plan;
+}
+
+function get_POI_from_plan(plan,event_title){
+    let tour = plan['tour'];
+    for(i in tour){
+        path = tour[i];
+        for(j in path){
+            let POI = path[j];
+            if(POI['name'] == event_title)
+                return POI;
+        }
+    }
+    return -1;
+}
 
 $(document).ready(function() {
             let plan = JSON.parse(document.getElementById('plan').value);
             let event_list = createEventList(plan);
-            let list_POI = ajaxGetPOI(plan);
+            let list_POI = ajaxGetPOIall(plan);
             var dataList = $("#results");
             dataList.empty();
             for(var name in list_POI){
@@ -104,9 +140,6 @@ $(document).ready(function() {
             }
 
             $('#calendar').fullCalendar({
-                header: {
-                    center: 'agendaItenerary' // buttons for switching between views
-                },
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 defaultView: 'agendaItenerary',
                 defaultDate: plan['start_date'],
@@ -127,14 +160,17 @@ $(document).ready(function() {
                         dataType: 'json',
                         
                         success: function (data) {
-                            console.log(data);
-                            {{}}
+                            // console.log(data);
+                            plan = data;
+                        },
+                        error: function (data) {
+                            revertFunc();
                         }
                     });
 
                 },
                 eventDrop: function(event, delta, revertFunc) {
-                    console.log(event);
+                    // console.log(event);
 
                     alert(event.title + " was dropped on " + event.start.format());
                     $.ajax({
@@ -150,7 +186,11 @@ $(document).ready(function() {
                         dataType: 'json',
                         
                         success: function (data) {
-                            console.log(data);
+                            // console.log(data);
+                            plan = data;
+                        },
+                        error: function (data) {
+                            revertFunc();
                         }
                     });
 
@@ -169,7 +209,7 @@ $(document).ready(function() {
 
                     if(!if_event_registered)
                     {
-                        console.log(event.title);
+                        // console.log(event.title);
                         event_list.push(event);
 
                         $.ajax({
@@ -185,11 +225,26 @@ $(document).ready(function() {
                             dataType: 'json',
                             
                             success: function (data) {
-                                console.log(data);
+                                // console.log(data);
                                 plan = data;
                             }
                         });
                     }
+                },
+
+                eventClick: function(calEvent, jsEvent, view) {
+                    alert("model should show");
+                    $('#infoModal').on('show.bs.modal', function (event) {
+                       $(this).find('h4.modal-title').text(calEvent.title);
+                    });
+                    let POI = get_POI_from_plan(plan,calEvent.title);
+                    // console.log(document.querySelector("#img_slide_0"));
+                    document.querySelector("#img_slide_0").src = "/static/"+POI['images'][0];
+                    document.querySelector("#img_slide_1").src = "/static/"+POI['images'][1];
+                    document.querySelector("#img_slide_2").src = "/static/"+POI['images'][2];
+                    $('#infoModal').find('.modal-document-body').text(POI['description']);
+                    $('#infoModal').modal({show:true});
+
                 },
                 views: {
                     agendaItenerary: {
@@ -216,11 +271,11 @@ $(document).ready(function() {
                         },
                         success: function(result) {
                             result = JSON.parse(result);
-                            console.log(result);
-                            let event_to_add = getEvent(result,plan['start_date']);
-                            console.log(event_to_add);
+                            // console.log(result);
+                            let event_to_add = getEventObject(result,plan['start_date']);
+                            // console.log(event_to_add);
                             
-                            console.log(event_list);
+                            // console.log(event_list);
                             $('#calendar').fullCalendar('renderEvent', {
                                   title: event_to_add['title'],
                                   start: event_to_add['start'],
@@ -247,5 +302,21 @@ $(document).ready(function() {
                         }
                     });
                 }
+            });
+
+            $('#deleteEventButton').click(function(){
+               let event_title = $('#infoModal').find('h4.modal-title').text();
+               console.log(event_title);
+               event_to_delete_index = getEvent(event_title,event_list);
+               // console.log('123');
+               event_list.splice(event_to_delete_index, 1);
+               console.log(event_to_delete_index);
+               $('#calendar').fullCalendar('removeEvents', function(eventObject) {
+                    if(eventObject.title == event_title){
+                        return true;
+                    }
+                    return false;
+                });
+               plan = remove_POI_from_plan(plan,event_title);
             });
         });

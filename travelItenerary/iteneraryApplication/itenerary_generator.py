@@ -1,4 +1,4 @@
-from .models import City, Type, PointOfInterest, OpenCloseTime, Photo, Form
+from .models import City, Type, PointOfInterest, OpenCloseTime, Photo, Form, DistanceTime
 from sklearn.cluster import KMeans
 import numpy as np
 from tsp_solver import tsp_solver, calculate_time, calculate_time_upto
@@ -123,7 +123,7 @@ def POI_time(time):
 	output = 0;
 	output+=(time.hour - 9.0)
 	output+=time.minute/60.0
-	return output
+	return float(output)
 
 
 def modify_itenerary(tour,event_name,event_start,event_end):
@@ -135,6 +135,8 @@ def modify_itenerary(tour,event_name,event_start,event_end):
 		path = tour['tour'][i]
 		for POI in path:
 			if POI['name']==event_name:
+				if not check_itenerary_consistency(tour,event_name,event_start,event_end):
+					return -1
 				POI_is_present = True
 				start_time = event_start.split("T")[1]
 				start_time = start_time.split("+")[0]
@@ -148,7 +150,7 @@ def modify_itenerary(tour,event_name,event_start,event_end):
 				# print time_diff
 				POI['time_spent'] = time_diff
 				# print POI['time']
-				POI['time'] = float(start_time.hour + start_time.minute/60.0 - 9.0)
+				POI['time'] = POI_time(start_time)
 				# print POI['time']
 
 				if (date_travel - start_day).days != i:
@@ -188,17 +190,31 @@ def modify_itenerary(tour,event_name,event_start,event_end):
 
 	return tour
 
+def get_actual_time_difference(POI_first, POI_second, city_name):
+	POI_source = PointOfInterest.objects.filter(POI_city = city_name, POI_name = POI_first)
+	POI_dest = PointOfInterest.objects.filter(POI_city = city_name, POI_name = POI_second)
+	# print POI_source
+	Distance_time_object = DistanceTime.objects.filter(source = POI_source[0], dest = POI_dest[0])
+	time_diff = Distance_time_object[0].time
+	return float(time_diff)/60.0
+	# return 0
+
+
 def check_itenerary_consistency(tour,event_name,event_start,event_end):
 	start_day = datetime.datetime.strptime(tour['start_date'], "%Y-%m-%d").date()
 	# POI = get_POI_object(event_name,tour['city'])
 
 	for path_index in range(0,len(tour['tour'])):
 		path = tour['tour'][path_index]
-		for POI_index in range(0,len(path)):
+		for POI in path:
+			if POI['name'] == event_name:
+				continue;
 			date_travel = event_start.split("T")[0]
 			date_travel = datetime.datetime.strptime(date_travel, "%Y-%m-%d").date()
-			if((date_travel - start_day).days != path_index)
+			if((date_travel - start_day).days > path_index):
 				break;
+			if((date_travel - start_day).days < path_index):
+				return True
 			start_time_event = event_start.split("T")[1]
 			start_time_event = start_time_event.split("+")[0]
 			start_time_event = datetime.datetime.strptime(start_time_event, '%H:%M:%S').time()
@@ -206,5 +222,32 @@ def check_itenerary_consistency(tour,event_name,event_start,event_end):
 			end_time_event = end_time_event.split("+")[0]
 			end_time_event = datetime.datetime.strptime(end_time_event, '%H:%M:%S').time()
 
+			POI_event_start_time = POI_time(start_time_event)
+			POI_event_end_time = POI_time(end_time_event)
+			POI_end_time = float(POI['time']) + float(POI['time_spent'])
+			POI_start_time = float(POI['time'])
+			if POI_event_start_time == POI_start_time or POI_event_end_time == POI_end_time:
+				return False
+			if POI_event_start_time < POI_start_time:
+				if POI_event_end_time > POI_start_time:
+					return False
+				travel_time = POI_start_time - POI_event_end_time
+				# print travel_time
+				# print "<><><><<><><><><><<><><><><><><><><><><><><><><><><><><>"
+				travel_time_actual = get_actual_time_difference(event_name,POI['name'],tour['city'])
+				if travel_time >= travel_time_actual:
+					return True
+				return False
+
+			if POI_start_time < POI_event_start_time:
+				if POI_end_time > POI_event_start_time:
+					return False
+				travel_time = POI_event_start_time - POI_end_time
+				travel_time_actual = get_actual_time_difference(POI['name'],event_name,tour['city'])
+				if travel_time >= travel_time_actual:
+					return True
+				return False
+
+	return True			
 
 
